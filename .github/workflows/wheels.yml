@@ -32,9 +32,11 @@ jobs:
           fetch-depth: 0
 
       - name: Install LLVM and Clang
+        id: install-llvm
         uses: KyleMayes/install-llvm-action@v2
         with:
           version: "11.0"
+          directory: ${{ runner.temp }}/llvm
 
       - name: Install Ubuntu dependencies
         if: matrix.os == 'ubuntu-latest'
@@ -50,6 +52,9 @@ jobs:
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.19.1
+        env:
+          LLVM_DIR: ${{ runner.temp }}/llvm
+          Clang_DIR: ${{ runner.temp }}/llvm
 
       - uses: actions/upload-artifact@v4
         with:
