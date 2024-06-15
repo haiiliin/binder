@@ -32,7 +32,6 @@ jobs:
           fetch-depth: 0
 
       - name: Install LLVM and Clang
-        id: install-llvm
         uses: KyleMayes/install-llvm-action@v2
         with:
           version: "11.0"
