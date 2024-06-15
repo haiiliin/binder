@@ -1,4 +1,4 @@
-name: Build wheels
+name: Wheels
 
 on:
   pull_request:
@@ -17,7 +17,6 @@ permissions:
 
 jobs:
   build:
-    name: Build wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
