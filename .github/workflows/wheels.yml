@@ -53,8 +53,7 @@ jobs:
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.19.1
         env:
-          LLVM_DIR: ${{ runner.temp }}/llvm
-          Clang_DIR: ${{ runner.temp }}/llvm
+          CIBW_ENVIRONMENT: LLVM_DIR=${{ runner.temp }}/llvm Clang_DIR=${{ runner.temp }}/llvm
 
       - uses: actions/upload-artifact@v4
         with:
