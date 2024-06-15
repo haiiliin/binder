@@ -25,6 +25,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install dependencies
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt update
+          sudo apt -y install clang llvm libclang-dev llvm-dev
+          sudo apt -y install cmake make gcc g++ python3 python3-dev pybind11-dev 
+
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.19.1
 
