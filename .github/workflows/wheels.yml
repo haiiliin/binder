@@ -38,17 +38,12 @@ jobs:
         with:
           python-version: 3.12
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install build
-
       - name: Build the binder executable
         shell: bash
         run: |
           cmake -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_EH=ON -DLLVM_ENABLE_RTTI=ON -DLLVM_ENABLE_PROJECTS=clang -DBINDER_BUILD_DIR=${{ github.workspace }}/binder/bin -S . -B cmake-build
           cmake --build cmake-build --config Release --target binder
-          python -m build
+          pip wheel --wheel-dir dist .
 
       - uses: actions/upload-artifact@v4
         with:
