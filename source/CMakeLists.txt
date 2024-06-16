@@ -40,6 +40,7 @@ add_clang_executable(binder
   fmt/os.cc
   fmt/os.h
   )
+set_target_properties(binder PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${BINDER_BUILD_DIR})
 if (NOT VERSION)
   set(VERSION 1.4.1)
 endif()  
@@ -123,7 +124,6 @@ else()
     clangFrontend
     )
 endif()
-message(STATUS "binder: install binder to ${BINDER_BUILD_DIR}")
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/binder
 PERMISSIONS WORLD_EXECUTE WORLD_READ OWNER_WRITE OWNER_READ OWNER_EXECUTE
-DESTINATION ${BINDER_BUILD_DIR})
+DESTINATION ${CMAKE_INSTALL_BINDIR})
