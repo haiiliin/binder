@@ -140,4 +140,4 @@ cmake-build-*/
 
 # Binder build files
 binder/_version.py
-binder/bin/binder
+binder/bin
