@@ -123,6 +123,7 @@ else()
     clangFrontend
     )
 endif()
+message(STATUS "binder: install binder to ${BINDER_BUILD_DIR}")
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/binder
 PERMISSIONS WORLD_EXECUTE WORLD_READ OWNER_WRITE OWNER_READ OWNER_EXECUTE
 DESTINATION ${BINDER_BUILD_DIR})
