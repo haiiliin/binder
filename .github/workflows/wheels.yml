@@ -1,9 +1,6 @@
 name: Wheels
 
 on:
-  pull_request:
-    branches:
-      - master
   release:
     types: [published]
 
@@ -22,9 +19,8 @@ jobs:
       matrix:
         # macos-13 is an intel runner, macos-14 is apple silicon
         os:
-          - windows-2019
+          - windows-2022
           - ubuntu-22.04
-          - macos-13
           - macos-14
       fail-fast: false
     steps:
@@ -60,11 +56,10 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
+          name: cppbinder-${{ github.ref_name }}-${{ matrix.os }}
           path: ./dist/*.whl
 
       - name: Upload wheels to release
-        if: github.event_name == 'release'
         shell: bash
         run: |
           gh release upload ${{ github.ref_name }} ./dist/*.whl --clobber
@@ -73,7 +68,6 @@ jobs:
 
   publish:
     needs: build
-    if: github.event_name == 'release'
     runs-on: ubuntu-22.04
     steps:
       - name: Download wheels
