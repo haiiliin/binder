@@ -43,7 +43,11 @@ include = ["binder/_version.py"]
 
 [tool.scikit-build.cmake]
 targets = ["binder"]
-define = { LLVM_ENABLE_PROJECTS = "clang" }
+
+[tool.scikit-build.cmake.define]
+LLVM_ENABLE_EH = "ON"
+LLVM_ENABLE_RTTI = "ON"
+LLVM_ENABLE_PROJECTS = "clang"
 
 [tool.scikit-build.wheel]
 packages = ["binder"]
