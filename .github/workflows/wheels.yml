@@ -22,8 +22,8 @@ jobs:
       matrix:
         # macos-13 is an intel runner, macos-14 is apple silicon
         os:
-          - windows-latest
-          - ubuntu-latest
+          - windows-2019
+          - ubuntu-22.04
           - macos-13
           - macos-14
       fail-fast: false
