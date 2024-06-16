@@ -53,7 +53,6 @@ targets = ["binder"]
 packages = ["binder"]
 py-api = "py3"
 expand-macos-universal-tags = true
-install-dir = "binder/bin"
 
 [tool.setuptools_scm]
 root = "."
