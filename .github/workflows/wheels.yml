@@ -38,28 +38,28 @@ jobs:
         with:
           python-version: 3.12
 
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install build
+
       - name: Build the binder executable
         shell: bash
         run: |
           cmake -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_EH=ON -DLLVM_ENABLE_RTTI=ON -DLLVM_ENABLE_PROJECTS=clang -DBINDER_BUILD_DIR=${GITHUB_WORKSPACE}/binder/bin -S . -B cmake-build
           cmake --build cmake-build --config Release --target binder
-
-      - name: Build wheels
-        uses: pypa/cibuildwheel@v2.19.1
-        env:
-          CIBW_ARCHS: auto64
-          CIBW_BUILD: cp312-*
+          python -m build
 
       - uses: actions/upload-artifact@v4
         with:
           name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
-          path: ./wheelhouse/*.whl
+          path: ./dist/*.whl
 
       - name: Upload wheels to release
         if: github.event_name == 'release'
         shell: bash
         run: |
-          gh release upload ${{ github.ref_name }} ./wheelhouse/*.whl --clobber
+          gh release upload ${{ github.ref_name }} ./dist/*.whl --clobber
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -70,10 +70,10 @@ jobs:
     steps:
       - name: Download wheels
         run: |
-          gh release download ${{ github.ref_name }} --pattern *.whl --dir wheelhouse
+          gh release download ${{ github.ref_name }} --pattern *.whl --dir dist
       - name: Publish package to PyPI
         uses: pypa/gh-action-pypi-publish@v1.8.14
         with:
           user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}
-          packages-dir: wheelhouse
+          packages-dir: dist
