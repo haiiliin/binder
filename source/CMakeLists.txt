@@ -40,6 +40,7 @@ add_clang_executable(binder
   fmt/os.cc
   fmt/os.h
   )
+message(STATUS "binder: Build binder to ${BINDER_BUILD_DIR}")
 set_target_properties(binder PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${BINDER_BUILD_DIR})
 if (NOT VERSION)
   set(VERSION 1.4.1)
