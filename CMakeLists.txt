@@ -1,5 +1,12 @@
 #This file can be used to build binder using preinstalled LLVM/Clang
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.0)
+
+include("cmake/Modules/HunterGate.cmake")
+HunterGate(
+    URL "https://github.com/cpp-pm/hunter/archive/v0.23.297.tar.gz"
+    SHA1 "3319fe6a3b08090df7df98dee75134d68e2ef5a3"
+)
+
 PROJECT(binder CXX C)
 SET(VERSION 1.4.1)
 option(STATIC "Statically compile Binder. See `documentation/install.rst` for more information." OFF)
@@ -28,117 +35,17 @@ if (NOT DEFINED BINDER_TEST_PYTHON_VERSIONS)
 endif()
 MESSAGE(STATUS  "binder: BINDER_ENABLE_TEST=${BINDER_ENABLE_TEST} with BINDER_TEST_PYTHON_VERSIONS=${BINDER_TEST_PYTHON_VERSIONS}. Note that version 0 can be used to check the generated sources agains the references.")
 MESSAGE(STATUS  "binder: BINDER_USE_PYTHON_IN_TEST=${BINDER_USE_PYTHON_IN_TEST}")
-MESSAGE(STATUS  "binder: Using LLVM_DIR=${LLVM_DIR} to search for cmake configurations.")
-MESSAGE(STATUS  "binder: Using Clang_DIR=${Clang_DIR} to search for cmake configurations.")
-MESSAGE(STATUS  "binder: Using CMAKE_MODULE_PATH=${CMAKE_MODULE_PATH} to search for cmake configurations.")
-find_package(Clang CONFIG QUIET PATHS /usr/lib64/cmake/clang /usr/lib/cmake/clang /usr/share/clang/cmake )
-find_package(LLVM  CONFIG QUIET PATHS /usr/lib64/cmake/clang  /usr/lib/cmake/llvm  /usr/share/llvm/cmake )
-if (Clang_FOUND AND LLVM_FOUND AND NOT LLVMCONFIG )
-  set(CMAKE_MODULE_PATH "${LLVM_CMAKE_DIR};${CMAKE_MODULE_PATH}")
-  MESSAGE(STATUS  "binder: cmake configurations  llvm and clang were found.  LLVM_CMAKE_DIR=${LLVM_CMAKE_DIR}")
-  include(AddLLVM)
-  include(LLVMConfig)
-  MESSAGE(STATUS  "binder: LLVM_LIBRARY_DIR=${LLVM_LIBRARY_DIR}")
-  MESSAGE(STATUS  "binder: LLVM_VERSION=${LLVM_VERSION}")
-  find_path(LibClang_INCLUDE_DIR stddef.h HINTS
-    ${LLVM_LIBRARY_DIR}/clang/${LLVM_VERSION}/include
-    ${LLVM_LIBRARY_DIR}/../clang/${LLVM_VERSION}/include
-    ${LLVM_LIBRARY_DIR}/../../lib/clang/${LLVM_VERSION}/include
-    ${LLVM_LIBRARY_DIR}/../../lib64/clang/${LLVM_VERSION}/include
-    ${CLANG_INCLUDE_DIRS}/clang/${LLVM_VERSION}/include
-    ${LLVM_LIBRARY_DIR}/clang/${LLVM_VERSION_MAJOR}/include
-    ${LLVM_LIBRARY_DIR}/../clang/${LLVM_VERSION_MAJOR}/include
-    ${LLVM_LIBRARY_DIR}/../../lib/clang/${LLVM_VERSION_MAJOR}/include
-    ${LLVM_LIBRARY_DIR}/../../lib64/clang/${LLVM_VERSION_MAJOR}/include
-    ${CLANG_INCLUDE_DIRS}/clang/${LLVM_VERSION_MAJOR}/include
-    ${LLVM_LIBRARY_DIR}/clang/${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}/include
-    ${LLVM_LIBRARY_DIR}/../clang/${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}/include
-    ${LLVM_LIBRARY_DIR}/../../lib/clang/${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}/include
-    ${LLVM_LIBRARY_DIR}/../../lib64/clang/${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}/include
-    ${CLANG_INCLUDE_DIRS}/clang/${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}/include
-    ${LLVM_LIBRARY_DIR}/clang/${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.0/include
-    ${LLVM_LIBRARY_DIR}/../clang/${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.0/include
-    ${LLVM_LIBRARY_DIR}/../../lib/clang/${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.0/include
-    ${LLVM_LIBRARY_DIR}/../../lib64/clang/${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.0/include
-    ${CLANG_INCLUDE_DIRS}/clang/${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.0/include
-    ${CLANG_INCLUDE_DIRS}
-    )
-  include_directories( ${CLANG_INCLUDE_DIRS} )
-  MESSAGE(STATUS  "binder: CLANG_INCLUDE_DIRS=${CLANG_INCLUDE_DIRS}")
-else()
-  MESSAGE(STATUS  "binder: llvm or clang cmake configurations were not found.")
-  MESSAGE(STATUS  "binder: CLang_FOUND=${Clang_FOUND}")
-  MESSAGE(STATUS  "binder: LLVM_FOUND=${LLVM_FOUND}")
-  MESSAGE(STATUS  "binder: Trying to look for llvm-config.")
-  set(LLVM_DIR ${LLVM_DIR_ORIG})
-  set(Clang_DIR ${Clang_DIR_ORIG})
-  SET(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH_ORIG}")
-  MESSAGE(STATUS  "binder: Restored original LLVM_DIR=${LLVM_DIR}")
-  MESSAGE(STATUS  "binder: Restored original Clang_DIR=${Clang_DIR}")
-  if (LLVMCONFIG)
-    MESSAGE(STATUS  "binder: The explicit location of  llvm-config is set to LLVMCONFIG=${LLVMCONFIG}")
-    if (EXISTS ${LLVMCONFIG})
-      set (LLVMCONFIGEXE ${LLVMCONFIG})
-    else()
-      MESSAGE(FATAL_ERROR  "binder: File ${LLVMCONFIG} does not exist")
-    endif()
-  else()
-    MESSAGE(STATUS  "binder: Searching for llvm-config in ${LLVM_DIR}/bin $ENV{PATH} /usr/bin/ /usr/local/bin")
-    find_program(LLVMCONFIGEXE NAMES llvm-config HINTS  ${LLVM_DIR}/bin $ENV{PATH} /usr/bin/ /usr/local/bin)
-  endif()
-  if (LLVMCONFIGEXE)
-    MESSAGE(STATUS  "binder: llvm-config found in ${LLVMCONFIGEXE}")
-    execute_process (COMMAND ${LLVMCONFIGEXE}  --version     OUTPUT_VARIABLE  LLVMVERSION OUTPUT_STRIP_TRAILING_WHITESPACE)
-    execute_process (COMMAND ${LLVMCONFIGEXE}  --libdir      OUTPUT_VARIABLE  LLVMLIBDIR OUTPUT_STRIP_TRAILING_WHITESPACE)
-    execute_process (COMMAND ${LLVMCONFIGEXE}  --includedir  OUTPUT_VARIABLE  LLVMINCLUDEDIR OUTPUT_STRIP_TRAILING_WHITESPACE)
-    execute_process (COMMAND ${LLVMCONFIGEXE}  --cxxflags    OUTPUT_VARIABLE  LLVMCXXFLAGS OUTPUT_STRIP_TRAILING_WHITESPACE)
-    set(LLVM_COMPILE_FLAGS ${LLVMCXXFLAGS})
-    include_directories( ${LLVMINCLUDEDIR})
-    include_directories( ${CLANG_INCLUDE_DIRS} )
-    link_directories(${LLVMLIBDIR} )
-    string(REPLACE "." ";" VERSION_LIST ${LLVMVERSION})
-    list(GET VERSION_LIST 0 LLVM_VERSION_MAJOR)
-    list(GET VERSION_LIST 1 LLVM_VERSION_MINOR)
-    list(GET VERSION_LIST 2 LLVM_VERSION_PATCH)
-    find_path(LibClang_INCLUDE_DIR stddef.h HINTS
-      ${LLVMINCLUDEDIR}/clang/${LLVMVERSION}/include
-      ${LLVMINCLUDEDIR}/../clang/${LLVMVERSION}/include
-      ${LLVMINCLUDEDIR}/../../lib/clang/${LLVMVERSION}/include
-      ${LLVMINCLUDEDIR}/../../lib64/clang/${LLVMVERSION}/include
-      ${CLANG_INCLUDE_DIRS}/clang/${LLVMVERSION}/include
-      ${CLANG_INCLUDE_DIRS}
-      )
-    MESSAGE(STATUS  "binder: llvm version from ${LLVMCONFIGEXE} is ${LLVMVERSION}")
-    MESSAGE(STATUS  "binder: llvm library dir from ${LLVMCONFIGEXE} is ${LLVMLIBDIR}")
-    MESSAGE(STATUS  "binder: llvm includedir dir from ${LLVMCONFIGEXE} is ${LLVMINCLUDEDIR}")
-  else()
-    MESSAGE(FATAL_ERROR  "binder: llvm-config not found")
-  endif()
-endif()
-IF( NOT LibClang_INCLUDE_DIR )
-#This will assure non-empty argument for binder in tests.
-    set(LibClang_INCLUDE_DIR "/")
-endif()
-MESSAGE(STATUS  "binder: LibClang_INCLUDE_DIR, the location of headers is ${LibClang_INCLUDE_DIR}")
-MESSAGE(STATUS  "binder: LLVM_VERSION_MAJOR=${LLVM_VERSION_MAJOR}")
-MESSAGE(STATUS  "binder: LLVM_VERSION_MINOR=${LLVM_VERSION_MINOR}")
-MESSAGE(STATUS  "binder: LLVM_VERSION_PATCH=${LLVM_VERSION_PATCH}")
-if( ${LLVM_VERSION_MAJOR} GREATER_EQUAL 16 )
-# LLVM 16 introduces the use of C++ features from C++17
-set(CMAKE_CXX_STANDARD 17)
-else()
-set(CMAKE_CXX_STANDARD 14)
-endif()
-macro(add_clang_executable name)
-  add_executable( ${name} ${ARGN} )
-#  set_target_properties(${name} PROPERTIES FOLDER "Clang executables")
-    message(STATUS "binder: We have cmake functions to update LLVM_COMPILE_FLAGS")
-    if (LLVM_COMPILER_IS_GCC_COMPATIBLE)
-      list(APPEND LLVM_COMPILE_FLAGS "-fno-rtti")
-    elseif (MSVC)
-      list(APPEND LLVM_COMPILE_FLAGS "/GR-")
-    endif ()
-endmacro(add_clang_executable)
+
+hunter_add_package(LLVM)
+hunter_add_package(Clang)
+
+find_package(LLVM CONFIG REQUIRED)
+find_package(Clang CONFIG REQUIRED)
+
+include_directories(${LLVM_INCLUDE_DIRS})
+add_definitions(${LLVM_DEFINITIONS})
+llvm_map_components_to_libnames(llvm_libs support core)
+
 include_directories(source)
 add_subdirectory(source)
 if (BINDER_ENABLE_TEST)
