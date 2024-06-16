@@ -72,7 +72,6 @@ jobs:
         run: |
           gh release download ${{ github.ref_name }} --pattern *.whl --dir wheelhouse
       - name: Publish package to PyPI
-        if: github.event_name == 'release'
         uses: pypa/gh-action-pypi-publish@v1.8.14
         with:
           user: __token__
