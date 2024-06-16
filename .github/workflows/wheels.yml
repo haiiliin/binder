@@ -26,12 +26,6 @@ jobs:
           - ubuntu-22.04
           - macos-13
           - macos-14
-        python-build:
-#          - cp38-*
-#          - cp39-*
-#          - cp310-*
-#          - cp311-*
-          - cp312-*
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
@@ -41,6 +35,8 @@ jobs:
 
       - name: Set up Python
         uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
 
       - name: Install dependencies
         run: |
@@ -51,7 +47,7 @@ jobs:
         uses: pypa/cibuildwheel@v2.19.1
         env:
           CIBW_ARCHS: auto64
-          CIBW_BUILD: ${{ matrix.python-build }}
+          CIBW_BUILD: cp312-*
 
       - uses: actions/upload-artifact@v4
         with:
