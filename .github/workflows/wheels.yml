@@ -46,7 +46,7 @@ jobs:
       - name: Build the binder executable
         shell: bash
         run: |
-          cmake -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_EH=ON -DLLVM_ENABLE_RTTI=ON -DLLVM_ENABLE_PROJECTS=clang -DBINDER_BUILD_DIR=${GITHUB_WORKSPACE}/binder/bin -S . -B cmake-build
+          cmake -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_EH=ON -DLLVM_ENABLE_RTTI=ON -DLLVM_ENABLE_PROJECTS=clang -DBINDER_BUILD_DIR=${{ github.workspace }}/binder/bin -S . -B cmake-build
           cmake --build cmake-build --config Release --target binder
           python -m build
 
