@@ -53,7 +53,7 @@ jobs:
           cmake --build cmake-build --config Release --target binder
           pip wheel --wheel-dir dist .
         env:
-          CMAKE_OPTIONS: >
+          CMAKE_OPTIONS: >-
             -DCMAKE_BUILD_TYPE=Release
             -DLLVM_ENABLE_EH=ON
             -DLLVM_ENABLE_RTTI=ON
