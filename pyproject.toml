@@ -36,7 +36,7 @@ include-package-data = true
 packages = ["binder"]
 
 [tool.setuptools.package-data]
-binder = "bin/**"
+binder = ["bin/**"]
 
 [tool.setuptools_scm]
 root = "."
