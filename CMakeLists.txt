@@ -1,5 +1,5 @@
 #This file can be used to build binder using preinstalled LLVM/Clang
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8.0)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
 
 include("cmake/Modules/HunterGate.cmake")
 HunterGate(
