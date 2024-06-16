@@ -3,8 +3,8 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
 
 include("cmake/Modules/HunterGate.cmake")
 HunterGate(
-    URL "https://github.com/cpp-pm/hunter/archive/v0.25.5.tar.gz"
-    SHA1 "a20151e4c0740ee7d0f9994476856d813cdead29"
+    URL "https://github.com/cpp-pm/hunter/archive/v0.24.18.tar.gz"
+    SHA1 "1292e4d661e1770d6d6ca08c12c07cf34a0bf718"
 )
 
 PROJECT(binder CXX C)
