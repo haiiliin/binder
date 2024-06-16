@@ -37,13 +37,28 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: 3.12
+      
+      - name: Normalize the path for the binder build directory
+        id: path
+        uses: mad9000/actions-find-and-replace-string@5
+        with:
+            source: ${{ github.workspace }}
+            find: '\\'
+            replace: '/'
 
       - name: Build the binder executable
         shell: bash
         run: |
-          cmake -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_EH=ON -DLLVM_ENABLE_RTTI=ON -DLLVM_ENABLE_PROJECTS=clang -DBINDER_BUILD_DIR=${{ github.workspace }}/binder/bin -S . -B cmake-build
+          cmake ${{ env.CMAKE_OPTIONS }} -S . -B cmake-build
           cmake --build cmake-build --config Release --target binder
           pip wheel --wheel-dir dist .
+        env:
+          CMAKE_OPTIONS: >
+            -DCMAKE_BUILD_TYPE=Release
+            -DLLVM_ENABLE_EH=ON
+            -DLLVM_ENABLE_RTTI=ON
+            -DLLVM_ENABLE_PROJECTS=clang
+            -DBINDER_BUILD_DIR=${{ steps.path.outputs.value }}/binder/bin
 
       - uses: actions/upload-artifact@v4
         with:
