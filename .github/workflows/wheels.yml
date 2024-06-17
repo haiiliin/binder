@@ -40,7 +40,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: cppbinder-${{ github.ref_name }}-${{ matrix.os }}
+          name: cppbinder-${{ matrix.os }}
           path: ./wheelhouse/*.whl
 
       - name: Upload wheels to release
