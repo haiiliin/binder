@@ -40,11 +40,6 @@ add_clang_executable(binder
   fmt/os.cc
   fmt/os.h
   )
-get_filename_component(PARENT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
-get_filename_component(PPARENT_DIRECTORY ${PARENT_DIRECTORY} DIRECTORY)
-get_filename_component(PPPARENT_DIRECTORY ${PPARENT_DIRECTORY} DIRECTORY)
-message(STATUS "binder: Build binder to ${PPPARENT_DIRECTORY}/binder/bin")
-set_target_properties(binder PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PPPARENT_DIRECTORY}/binder/bin)
 if (NOT VERSION)
   set(VERSION 1.4.1)
 endif()  
