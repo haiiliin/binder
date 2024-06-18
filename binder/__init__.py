@@ -1,7 +1,6 @@
 import os
 import sys
 import subprocess
-from pathlib import Path
 
 try:
     from ._version import __version__ as _default_version
@@ -24,13 +23,13 @@ def _get_version():
     # Only shell out to a git subprocess if really needed, and not on a
     # shallow clone, such as those used by CI, as the latter would trigger
     # a warning from setuptools_scm.
-    root = Path(__file__).resolve().parents[1]
-    if (root / ".git").exists() and not (root / ".git/shallow").exists():
+    root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    if os.path.exists(os.path.join(root, ".git")) and not os.path.exists(os.path.join(root, ".git/shallow")):
         try:
             import setuptools_scm
 
             return setuptools_scm.get_version(
-                root=str(root),
+                root=root,
                 version_scheme="post-release",
                 fallback_version=_default_version,
             )
@@ -40,4 +39,4 @@ def _get_version():
         return _default_version
 
 
-__version__: str = _get_version()
+__version__ = _get_version()
