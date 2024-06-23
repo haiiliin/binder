@@ -162,7 +162,7 @@ Config file directives:
 
 * ``+add_on_binder``, similar to ``binder``: specify custom binding function for class/struct that will be called `after` Binder
   generated code bound it. This allow developer to create extra bindings for particular type (bind special Python methods,
-  operators, etc.) The expected type signature of specified function should be `void f(pybind11::class_<T, std::shared_ptr<T> > &)`
+  operators, etc.) The expected type signature of specified function should be `void f(nanobind::class_<T, std::shared_ptr<T> > &)`
 
 .. code-block:: bash
 

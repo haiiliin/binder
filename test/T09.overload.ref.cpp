@@ -76,13 +76,13 @@ struct PyCallBack_A4 : public A4 {
 void bind_T09_overload(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // A1 file:T09.overload.hpp line:
-		pybind11::class_<A1, std::shared_ptr<A1>> cl(M(""), "A1", "");
+		nanobind::class_<A1, std::shared_ptr<A1>> cl(M(""), "A1", "");
 		cl.def( pybind11::init( [](){ return new A1(); } ), "doc" );
 		cl.def( pybind11::init<int>(), pybind11::arg("a") );
 
 	}
 	{ // A2 file:T09.overload.hpp line:
-		pybind11::class_<A2, std::shared_ptr<A2>, PyCallBack_A2> cl(M(""), "A2", "");
+		nanobind::class_<A2, std::shared_ptr<A2>, PyCallBack_A2> cl(M(""), "A2", "");
 		cl.def( pybind11::init( [](){ return new A2(); }, [](){ return new PyCallBack_A2(); } ), "doc");
 		cl.def( pybind11::init<int>(), pybind11::arg("a") );
 
@@ -90,7 +90,7 @@ void bind_T09_overload(std::function< pybind11::module &(std::string const &name
 		cl.def("assign", (struct A2 & (A2::*)(const struct A2 &)) &A2::operator=, "C++: A2::operator=(const struct A2 &) --> struct A2 &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
 	{ // A3 file:T09.overload.hpp line:
-		pybind11::class_<A3, std::shared_ptr<A3>, PyCallBack_A3> cl(M(""), "A3", "");
+		nanobind::class_<A3, std::shared_ptr<A3>, PyCallBack_A3> cl(M(""), "A3", "");
 		cl.def( pybind11::init( [](){ return new PyCallBack_A3(); } ), "doc");
 		cl.def( pybind11::init<int>(), pybind11::arg("a") );
 
@@ -98,7 +98,7 @@ void bind_T09_overload(std::function< pybind11::module &(std::string const &name
 		cl.def("assign", (struct A3 & (A3::*)(const struct A3 &)) &A3::operator=, "C++: A3::operator=(const struct A3 &) --> struct A3 &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
 	{ // A4 file:T09.overload.hpp line:
-		pybind11::class_<A4, std::shared_ptr<A4>, PyCallBack_A4> cl(M(""), "A4", "");
+		nanobind::class_<A4, std::shared_ptr<A4>, PyCallBack_A4> cl(M(""), "A4", "");
 		cl.def( pybind11::init( [](){ return new PyCallBack_A4(); } ), "doc");
 		cl.def( pybind11::init<int>(), pybind11::arg("a") );
 
@@ -147,7 +147,7 @@ PYBIND11_MODULE(T09_overload, root_module) {
 	};
 	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
-	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
+	//nanobind::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
 	bind_T09_overload(M);
 

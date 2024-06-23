@@ -30,7 +30,7 @@ struct PyCallBack_aaa_A_double_t : public aaa::A<double> {
 void bind_T81_custom_trampoline_with_args(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // aaa::A file:T81.custom_trampoline_with_args.hpp line:
-		pybind11::class_<aaa::A<double>, std::shared_ptr<aaa::A<double>>, PyCallBack_aaa_A_double_t> cl(M("aaa"), "A_double_t", "");
+		nanobind::class_<aaa::A<double>, std::shared_ptr<aaa::A<double>>, PyCallBack_aaa_A_double_t> cl(M("aaa"), "A_double_t", "");
 		cl.def( pybind11::init( [](){ return new aaa::A<double>(); }, [](){ return new PyCallBack_aaa_A_double_t(); } ) );
 		cl.def("foo", (void (aaa::A<double>::*)(int, std::string, float)) &aaa::A<double>::foo, "C++: aaa::A<double>::foo(int, std::string, float) --> void", pybind11::arg("a"), pybind11::arg("b"), pybind11::arg("d"));
 		cl.def("assign", (class aaa::A<double> & (aaa::A<double>::*)(const class aaa::A<double> &)) &aaa::A<double>::operator=, "C++: aaa::A<double>::operator=(const class aaa::A<double> &) --> class aaa::A<double> &", pybind11::return_value_policy::automatic, pybind11::arg(""));
@@ -78,7 +78,7 @@ PYBIND11_MODULE(T81_custom_trampoline_with_args, root_module) {
 	};
 	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
-	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
+	//nanobind::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
 	bind_T81_custom_trampoline_with_args(M);
 

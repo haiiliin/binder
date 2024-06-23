@@ -22,7 +22,7 @@
 void bind_T12_insertion_operator(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // A file:T12.insertion_operator.hpp line:
-		pybind11::class_<A, std::shared_ptr<A>> cl(M(""), "A", "");
+		nanobind::class_<A, std::shared_ptr<A>> cl(M(""), "A", "");
 		cl.def( pybind11::init( [](){ return new A(); } ) );
 
 		cl.def("__str__", [](A const &o) -> std::string { std::ostringstream s; s << o; return s.str(); } );
@@ -54,7 +54,7 @@ void bind_T12_insertion_operator(std::function< pybind11::module &(std::string c
 void bind_T12_insertion_operator_1(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // aaaa::T file:T12.insertion_operator.hpp line:
-		pybind11::class_<aaaa::T, std::shared_ptr<aaaa::T>> cl(M("aaaa"), "T", "");
+		nanobind::class_<aaaa::T, std::shared_ptr<aaaa::T>> cl(M("aaaa"), "T", "");
 		cl.def( pybind11::init( [](){ return new aaaa::T(); } ) );
 		cl.def( pybind11::init( [](aaaa::T const &o){ return new aaaa::T(o); } ) );
 
@@ -87,7 +87,7 @@ void bind_T12_insertion_operator_1(std::function< pybind11::module &(std::string
 void bind_T12_insertion_operator_2(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // A1 file:T12.insertion_operator.hpp line:
-		pybind11::class_<A1, std::shared_ptr<A1>> cl(M(""), "A1", "");
+		nanobind::class_<A1, std::shared_ptr<A1>> cl(M(""), "A1", "");
 		cl.def( pybind11::init( [](){ return new A1(); } ) );
 		cl.def_readwrite("a", &A1::a);
 
@@ -122,14 +122,14 @@ void bind_T12_insertion_operator_2(std::function< pybind11::module &(std::string
 void bind_T12_insertion_operator_3(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // bbbb::B file:T12.insertion_operator.hpp line:
-		pybind11::class_<bbbb::B, std::shared_ptr<bbbb::B>> cl(M("bbbb"), "B", "");
+		nanobind::class_<bbbb::B, std::shared_ptr<bbbb::B>> cl(M("bbbb"), "B", "");
 		cl.def( pybind11::init( [](){ return new bbbb::B(); } ) );
 		cl.def( pybind11::init( [](bbbb::B const &o){ return new bbbb::B(o); } ) );
 
 		cl.def("__str__", [](bbbb::B const &o) -> std::string { std::ostringstream s; using namespace bbbb::cccc; s << o; return s.str(); } );
 	}
 	{ // bbbb::B2 file:T12.insertion_operator.hpp line:
-		pybind11::class_<bbbb::B2, std::shared_ptr<bbbb::B2>> cl(M("bbbb"), "B2", "");
+		nanobind::class_<bbbb::B2, std::shared_ptr<bbbb::B2>> cl(M("bbbb"), "B2", "");
 		cl.def( pybind11::init( [](){ return new bbbb::B2(); } ) );
 
 		cl.def("__str__", [](bbbb::B2 const &o) -> std::string { std::ostringstream s; using namespace bbbb; s << o; return s.str(); } );
@@ -161,7 +161,7 @@ void bind_T12_insertion_operator_3(std::function< pybind11::module &(std::string
 void bind_T12_insertion_operator_4(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // bbbb::cccc::C file:T12.insertion_operator.hpp line:
-		pybind11::class_<bbbb::cccc::C, std::shared_ptr<bbbb::cccc::C>> cl(M("bbbb::cccc"), "C", "");
+		nanobind::class_<bbbb::cccc::C, std::shared_ptr<bbbb::cccc::C>> cl(M("bbbb::cccc"), "C", "");
 		cl.def( pybind11::init( [](){ return new bbbb::cccc::C(); } ) );
 
 		cl.def("__str__", [](bbbb::cccc::C const &o) -> std::string { std::ostringstream s; using namespace bbbb::cccc; s << o; return s.str(); } );
@@ -215,7 +215,7 @@ PYBIND11_MODULE(T12_insertion_operator, root_module) {
 	};
 	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
-	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
+	//nanobind::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
 	bind_T12_insertion_operator(M);
 	bind_T12_insertion_operator_1(M);

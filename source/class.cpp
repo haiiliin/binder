@@ -941,7 +941,7 @@ string bind_forward_declaration(CXXRecordDecl const *C, Context &context)
 		if( d->getAccess() != AS_public ) maybe_holder_type = ", " + qualified_name + '*';
 	}
 
-	c += '\t' + R"(pybind11::class_<{}{}>({}, "{}");)"_format(qualified_name, maybe_holder_type, module_variable_name, python_class_name(C)) + "\n\n";
+	c += '\t' + R"(nanobind::class_<{}{}>({}, "{}");)"_format(qualified_name, maybe_holder_type, module_variable_name, python_class_name(C)) + "\n\n";
 
 	return c;
 }
@@ -1278,7 +1278,7 @@ void ClassBinder::bind(Context &context)
 				'\n';
 		}
 		c += '\t' +
-			 R"(pybind11::class_<{}{}{}{}> cl({}, "{}", "{}"{});)"_format(qualified_name, maybe_holder_type, maybe_trampoline, maybe_base_classes(context), module_variable_name, python_class_name(C),
+			 R"(nanobind::class_<{}{}{}{}> cl({}, "{}", "{}"{});)"_format(qualified_name, maybe_holder_type, maybe_trampoline, maybe_base_classes(context), module_variable_name, python_class_name(C),
 																		generate_documentation_string_for_declaration(C), extra_annotation) +
 			 '\n';
 	}

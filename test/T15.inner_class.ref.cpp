@@ -37,7 +37,7 @@ struct PyCallBack_Base : public Base {
 void bind_T15_inner_class(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // Base file:T15.inner_class.hpp line:
-		pybind11::class_<Base, std::shared_ptr<Base>, PyCallBack_Base> cl(M(""), "Base", "");
+		nanobind::class_<Base, std::shared_ptr<Base>, PyCallBack_Base> cl(M(""), "Base", "");
 		cl.def( pybind11::init( [](){ return new Base(); }, [](){ return new PyCallBack_Base(); } ) );
 		cl.def("foo", (void (Base::*)()) &Base::foo, "C++: Base::foo() --> void");
 		cl.def("assign", (struct Base & (Base::*)(const struct Base &)) &Base::operator=, "C++: Base::operator=(const struct Base &) --> struct Base &", pybind11::return_value_policy::automatic, pybind11::arg(""));
@@ -49,7 +49,7 @@ void bind_T15_inner_class(std::function< pybind11::module &(std::string const &n
 
 		{ // Base::InnerBase file:T15.inner_class.hpp line:
 			auto & enclosing_class = cl;
-			pybind11::class_<Base::InnerBase, std::shared_ptr<Base::InnerBase>> cl(enclosing_class, "InnerBase", "");
+			nanobind::class_<Base::InnerBase, std::shared_ptr<Base::InnerBase>> cl(enclosing_class, "InnerBase", "");
 			cl.def( pybind11::init( [](){ return new Base::InnerBase(); } ) );
 			cl.def_readwrite("ia", &Base::InnerBase::ia);
 			cl.def_readwrite("ib", &Base::InnerBase::ib);
@@ -58,14 +58,14 @@ void bind_T15_inner_class(std::function< pybind11::module &(std::string const &n
 
 		{ // Base::InnerTemplate file:T15.inner_class.hpp line:
 			auto & enclosing_class = cl;
-			pybind11::class_<Base::InnerTemplate<int>, std::shared_ptr<Base::InnerTemplate<int>>> cl(enclosing_class, "InnerTemplate_int_t", "");
+			nanobind::class_<Base::InnerTemplate<int>, std::shared_ptr<Base::InnerTemplate<int>>> cl(enclosing_class, "InnerTemplate_int_t", "");
 			cl.def( pybind11::init( [](){ return new Base::InnerTemplate<int>(); } ) );
 			cl.def_readwrite("value", &Base::InnerTemplate<int>::value);
 		}
 
 		{ // Base::InnerTemplate file:T15.inner_class.hpp line:
 			auto & enclosing_class = cl;
-			pybind11::class_<Base::InnerTemplate<float>, std::shared_ptr<Base::InnerTemplate<float>>> cl(enclosing_class, "InnerTemplate_float_t", "");
+			nanobind::class_<Base::InnerTemplate<float>, std::shared_ptr<Base::InnerTemplate<float>>> cl(enclosing_class, "InnerTemplate_float_t", "");
 			cl.def( pybind11::init( [](){ return new Base::InnerTemplate<float>(); } ) );
 			cl.def_readwrite("value", &Base::InnerTemplate<float>::value);
 		}
@@ -112,7 +112,7 @@ struct PyCallBack_n1_A : public n1::A {
 void bind_T15_inner_class_1(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // n1::A file:T15.inner_class.hpp line:
-		pybind11::class_<n1::A, std::shared_ptr<n1::A>, PyCallBack_n1_A, Base> cl(M("n1"), "A", "");
+		nanobind::class_<n1::A, std::shared_ptr<n1::A>, PyCallBack_n1_A, Base> cl(M("n1"), "A", "");
 		cl.def( pybind11::init( [](){ return new n1::A(); }, [](){ return new PyCallBack_n1_A(); } ) );
 		cl.def("assign", (struct n1::A & (n1::A::*)(const struct n1::A &)) &n1::A::operator=, "C++: n1::A::operator=(const struct n1::A &) --> struct n1::A &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
@@ -157,7 +157,7 @@ struct PyCallBack_n1_n2_A : public n1::n2::A {
 void bind_T15_inner_class_2(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // n1::n2::A file:T15.inner_class.hpp line:
-		pybind11::class_<n1::n2::A, std::shared_ptr<n1::n2::A>, PyCallBack_n1_n2_A, n1::A> cl(M("n1::n2"), "A", "");
+		nanobind::class_<n1::n2::A, std::shared_ptr<n1::n2::A>, PyCallBack_n1_n2_A, n1::A> cl(M("n1::n2"), "A", "");
 		cl.def( pybind11::init( [](){ return new n1::n2::A(); }, [](){ return new PyCallBack_n1_n2_A(); } ) );
 		cl.def("assign", (struct n1::n2::A & (n1::n2::A::*)(const struct n1::n2::A &)) &n1::n2::A::operator=, "C++: n1::n2::A::operator=(const struct n1::n2::A &) --> struct n1::n2::A &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
@@ -231,7 +231,7 @@ PYBIND11_MODULE(T15_inner_class, root_module) {
 	};
 	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
-	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
+	//nanobind::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
 	bind_T15_inner_class(M);
 	bind_T15_inner_class_1(M);

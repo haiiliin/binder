@@ -42,7 +42,7 @@ void bind_T01_enum(std::function< pybind11::module &(std::string const &namespac
 ;
 
 	{ // A file:T01.enum.hpp line:
-		pybind11::class_<A, std::shared_ptr<A>> cl(M(""), "A", "");
+		nanobind::class_<A, std::shared_ptr<A>> cl(M(""), "A", "");
 		cl.def( pybind11::init( [](){ return new A(); } ) );
 
 		pybind11::enum_<A::AE1>(cl, "AE1", pybind11::arithmetic(), "")
@@ -133,7 +133,7 @@ PYBIND11_MODULE(T01_enum, root_module) {
 	};
 	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
-	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
+	//nanobind::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
 	bind_T01_enum(M);
 	bind_T01_enum_1(M);

@@ -143,7 +143,7 @@ struct PyCallBack_Dog_1_t : public Dog<1> {
 void bind_T10_virtual_inheritance(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // Animal file:T10.virtual_inheritance.hpp line:
-		pybind11::class_<Animal<1>, std::shared_ptr<Animal<1>>, PyCallBack_Animal_1_t> cl(M(""), "Animal_1_t", "");
+		nanobind::class_<Animal<1>, std::shared_ptr<Animal<1>>, PyCallBack_Animal_1_t> cl(M(""), "Animal_1_t", "");
 		cl.def( pybind11::init( [](){ return new PyCallBack_Animal_1_t(); } ) );
 		cl.def(pybind11::init<PyCallBack_Animal_1_t const &>());
 		cl.def("Eat", (void (Animal<1>::*)() const) &Animal<1>::Eat, "C++: Animal<1>::Eat() const --> void");
@@ -152,14 +152,14 @@ void bind_T10_virtual_inheritance(std::function< pybind11::module &(std::string 
 		cl.def("assign", (class Animal<1> & (Animal<1>::*)(const class Animal<1> &)) &Animal<1>::operator=, "C++: Animal<1>::operator=(const class Animal<1> &) --> class Animal<1> &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
 	{ // Mammal file:T10.virtual_inheritance.hpp line:
-		pybind11::class_<Mammal<1>, std::shared_ptr<Mammal<1>>, PyCallBack_Mammal_1_t, Animal<1>> cl(M(""), "Mammal_1_t", "");
+		nanobind::class_<Mammal<1>, std::shared_ptr<Mammal<1>>, PyCallBack_Mammal_1_t, Animal<1>> cl(M(""), "Mammal_1_t", "");
 		cl.def( pybind11::init( [](){ return new PyCallBack_Mammal_1_t(); } ) );
 		cl.def(pybind11::init<PyCallBack_Mammal_1_t const &>());
 		cl.def("Breathe", (void (Mammal<1>::*)() const) &Mammal<1>::Breathe, "C++: Mammal<1>::Breathe() const --> void");
 		cl.def("assign", (class Mammal<1> & (Mammal<1>::*)(const class Mammal<1> &)) &Mammal<1>::operator=, "C++: Mammal<1>::operator=(const class Mammal<1> &) --> class Mammal<1> &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
 	{ // Dog file:T10.virtual_inheritance.hpp line:
-		pybind11::class_<Dog<1>, std::shared_ptr<Dog<1>>, PyCallBack_Dog_1_t, Mammal<1>> cl(M(""), "Dog_1_t", "");
+		nanobind::class_<Dog<1>, std::shared_ptr<Dog<1>>, PyCallBack_Dog_1_t, Mammal<1>> cl(M(""), "Dog_1_t", "");
 		cl.def( pybind11::init( [](){ return new Dog<1>(); }, [](){ return new PyCallBack_Dog_1_t(); } ) );
 		cl.def( pybind11::init( [](PyCallBack_Dog_1_t const &o){ return new PyCallBack_Dog_1_t(o); } ) );
 		cl.def( pybind11::init( [](Dog<1> const &o){ return new Dog<1>(o); } ) );
@@ -216,7 +216,7 @@ PYBIND11_MODULE(T10_virtual_inheritance, root_module) {
 	};
 	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
-	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
+	//nanobind::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
 	bind_T10_virtual_inheritance(M);
 

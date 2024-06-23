@@ -20,7 +20,7 @@ void bind_T32_call_guard(std::function< pybind11::module &(std::string const &na
 	M("").def("free", (void (*)(int)) &free, "C++: free(int) --> void", pybind11::arg(""), pybind11::call_guard<pybind11::gil_scoped_release>());
 
 	{ // Methods file:T32.call_guard.hpp line:
-		pybind11::class_<Methods, std::shared_ptr<Methods>> cl(M(""), "Methods", "");
+		nanobind::class_<Methods, std::shared_ptr<Methods>> cl(M(""), "Methods", "");
 		cl.def( pybind11::init( [](){ return new Methods(); } ) );
 		cl.def("foo", (void (Methods::*)(int)) &Methods::foo, "C++: Methods::foo(int) --> void", pybind11::arg(""), pybind11::call_guard<pybind11::gil_scoped_release>());
 	}
@@ -66,7 +66,7 @@ PYBIND11_MODULE(T32_call_guard, root_module) {
 	};
 	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
-	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
+	//nanobind::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
 	bind_T32_call_guard(M);
 

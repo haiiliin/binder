@@ -24,7 +24,7 @@ template <typename T, class Allocator> class vector_binder
 	using Vector = std::vector<T, Allocator>;
 	using SizeType = typename Vector::size_type;
 
-	using Class_ = pybind11::class_<Vector, std::shared_ptr< Vector > >;
+	using Class_ = nanobind::class_<Vector, std::shared_ptr< Vector > >;
 
 
 public:
@@ -32,7 +32,7 @@ public:
 	{
 		using Vector = std::vector<T, Allocator>;
 		using holder_type = std::shared_ptr<std::vector<T, Allocator>>;
-		using Class_ = pybind11::class_<Vector, holder_type>;
+		using Class_ = nanobind::class_<Vector, holder_type>;
 
 		Class_ cl = pybind11::bind_vector<Vector, holder_type>(m, "vector_" + name);
 
@@ -68,7 +68,7 @@ public:
 	{
 		using Map = std::map<Key, T, Compare, Allocator>;
 		using holder_type = std::shared_ptr< std::map<Key, T, Compare, Allocator> >;
-		using Class_ = pybind11::class_<Map, holder_type>;
+		using Class_ = nanobind::class_<Map, holder_type>;
 
 		std::string maybe_extra =
 			( (comparator_name == "std_less_" + key_name + "_t") ? "" : ("_" + comparator_name) ) +

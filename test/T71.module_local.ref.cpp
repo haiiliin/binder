@@ -17,7 +17,7 @@
 void bind_T71_module_local(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // aaa::A file:T71.module_local.hpp line:
-		pybind11::class_<aaa::A, std::shared_ptr<aaa::A>> cl(M("aaa"), "A", "", pybind11::module_local());
+		nanobind::class_<aaa::A, std::shared_ptr<aaa::A>> cl(M("aaa"), "A", "", pybind11::module_local());
 		cl.def( pybind11::init( [](){ return new aaa::A(); } ) );
 		cl.def("foo", (void (aaa::A::*)()) &aaa::A::foo, "C++: aaa::A::foo() --> void");
 	}
@@ -50,7 +50,7 @@ void bind_T71_module_local(std::function< pybind11::module &(std::string const &
 void bind_T71_module_local_1(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // bbb::B file:T71.module_local.hpp line:
-		pybind11::class_<bbb::B, std::shared_ptr<bbb::B>> cl(M("bbb"), "B", "");
+		nanobind::class_<bbb::B, std::shared_ptr<bbb::B>> cl(M("bbb"), "B", "");
 		cl.def( pybind11::init( [](){ return new bbb::B(); } ) );
 		cl.def("foo", (void (bbb::B::*)()) &bbb::B::foo, "C++: bbb::B::foo() --> void");
 	}
@@ -99,7 +99,7 @@ PYBIND11_MODULE(T71_module_local, root_module) {
 	};
 	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
-	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
+	//nanobind::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
 	bind_T71_module_local(M);
 	bind_T71_module_local_1(M);

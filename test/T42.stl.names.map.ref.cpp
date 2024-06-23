@@ -21,25 +21,25 @@
 void bind_std_stl_function(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // std::binary_function file:bits/stl_function.h line:
-		pybind11::class_<std::binary_function<float,float,bool>, std::shared_ptr<std::binary_function<float,float,bool>>> cl(M("std"), "binary_function_float_float_bool_t", "");
+		nanobind::class_<std::binary_function<float,float,bool>, std::shared_ptr<std::binary_function<float,float,bool>>> cl(M("std"), "binary_function_float_float_bool_t", "");
 		cl.def( pybind11::init( [](std::binary_function<float,float,bool> const &o){ return new std::binary_function<float,float,bool>(o); } ) );
 		cl.def( pybind11::init( [](){ return new std::binary_function<float,float,bool>(); } ) );
 		cl.def("assign", (struct std::binary_function<float, float, bool> & (std::binary_function<float,float,bool>::*)(const struct std::binary_function<float, float, bool> &)) &std::binary_function<float, float, bool>::operator=, "C++: std::binary_function<float, float, bool>::operator=(const struct std::binary_function<float, float, bool> &) --> struct std::binary_function<float, float, bool> &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
 	{ // std::binary_function file:bits/stl_function.h line:
-		pybind11::class_<std::binary_function<std::string,std::string,bool>, std::shared_ptr<std::binary_function<std::string,std::string,bool>>> cl(M("std"), "binary_function_std_string_std_string_bool_t", "");
+		nanobind::class_<std::binary_function<std::string,std::string,bool>, std::shared_ptr<std::binary_function<std::string,std::string,bool>>> cl(M("std"), "binary_function_std_string_std_string_bool_t", "");
 		cl.def( pybind11::init( [](std::binary_function<std::string,std::string,bool> const &o){ return new std::binary_function<std::string,std::string,bool>(o); } ) );
 		cl.def( pybind11::init( [](){ return new std::binary_function<std::string,std::string,bool>(); } ) );
 		cl.def("assign", (struct std::binary_function<std::string, std::string, bool> & (std::binary_function<std::string,std::string,bool>::*)(const struct std::binary_function<std::string, std::string, bool> &)) &std::binary_function<std::string, std::string, bool>::operator=, "C++: std::binary_function<std::string, std::string, bool>::operator=(const struct std::binary_function<std::string, std::string, bool> &) --> struct std::binary_function<std::string, std::string, bool> &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
 	{ // std::equal_to file:bits/stl_function.h line:
-		pybind11::class_<std::equal_to<float>, std::shared_ptr<std::equal_to<float>>, std::binary_function<float,float,bool>> cl(M("std"), "equal_to_float_t", "");
+		nanobind::class_<std::equal_to<float>, std::shared_ptr<std::equal_to<float>>, std::binary_function<float,float,bool>> cl(M("std"), "equal_to_float_t", "");
 		cl.def( pybind11::init( [](){ return new std::equal_to<float>(); } ) );
 		cl.def("__call__", (bool (std::equal_to<float>::*)(const float &, const float &) const) &std::equal_to<float>::operator(), "C++: std::equal_to<float>::operator()(const float &, const float &) const --> bool", pybind11::arg("__x"), pybind11::arg("__y"));
 		cl.def("assign", (struct std::binary_function<float, float, bool> & (std::binary_function<float,float,bool>::*)(const struct std::binary_function<float, float, bool> &)) &std::binary_function<float, float, bool>::operator=, "C++: std::binary_function<float, float, bool>::operator=(const struct std::binary_function<float, float, bool> &) --> struct std::binary_function<float, float, bool> &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
 	{ // std::equal_to file:bits/stl_function.h line:
-		pybind11::class_<std::equal_to<std::string>, std::shared_ptr<std::equal_to<std::string>>, std::binary_function<std::string,std::string,bool>> cl(M("std"), "equal_to_std_string_t", "");
+		nanobind::class_<std::equal_to<std::string>, std::shared_ptr<std::equal_to<std::string>>, std::binary_function<std::string,std::string,bool>> cl(M("std"), "equal_to_std_string_t", "");
 		cl.def( pybind11::init( [](){ return new std::equal_to<std::string>(); } ) );
 		cl.def("__call__", (bool (std::equal_to<std::string>::*)(const std::string &, const std::string &) const) &std::equal_to<std::string >::operator(), "C++: std::equal_to<std::string >::operator()(const std::string &, const std::string &) const --> bool", pybind11::arg("__x"), pybind11::arg("__y"));
 		cl.def("assign", (struct std::binary_function<std::string, std::string, bool> & (std::binary_function<std::string,std::string,bool>::*)(const struct std::binary_function<std::string, std::string, bool> &)) &std::binary_function<std::string, std::string, bool>::operator=, "C++: std::binary_function<std::string, std::string, bool>::operator=(const struct std::binary_function<std::string, std::string, bool> &) --> struct std::binary_function<std::string, std::string, bool> &", pybind11::return_value_policy::automatic, pybind11::arg(""));
@@ -79,19 +79,19 @@ void bind_std_stl_function(std::function< pybind11::module &(std::string const &
 void bind_std_functional_hash(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // std::hash file:bits/functional_hash.h line:
-		pybind11::class_<std::hash<float>, std::shared_ptr<std::hash<float>>> cl(M("std"), "hash_float_t", "");
+		nanobind::class_<std::hash<float>, std::shared_ptr<std::hash<float>>> cl(M("std"), "hash_float_t", "");
 		cl.def( pybind11::init( [](){ return new std::hash<float>(); } ) );
 		cl.def( pybind11::init( [](std::hash<float> const &o){ return new std::hash<float>(o); } ) );
 		cl.def("__call__", (std::size_t (std::hash<float>::*)(float) const) &std::hash<float>::operator(), "C++: std::hash<float>::operator()(float) const --> std::size_t", pybind11::arg("__val"));
 		cl.def("assign", (struct std::hash<float> & (std::hash<float>::*)(const struct std::hash<float> &)) &std::hash<float>::operator=, "C++: std::hash<float>::operator=(const struct std::hash<float> &) --> struct std::hash<float> &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
 	{ // std::hash file:bits/basic_string.h line:
-		pybind11::class_<std::hash<std::string>, std::shared_ptr<std::hash<std::string>>> cl(M("std"), "hash_std_string_t", "");
+		nanobind::class_<std::hash<std::string>, std::shared_ptr<std::hash<std::string>>> cl(M("std"), "hash_std_string_t", "");
 		cl.def( pybind11::init( [](){ return new std::hash<std::string>(); } ) );
 		cl.def("__call__", (std::size_t (std::hash<std::string>::*)(const std::string &) const) &std::hash<std::string >::operator(), "C++: std::hash<std::string >::operator()(const std::string &) const --> std::size_t", pybind11::arg("__s"));
 	}
 	{ // std::map file:bits/stl_map.h line:
-		pybind11::class_<std::map<float,int>, std::shared_ptr<std::map<float,int>>> cl(M("std"), "map_float_int_t", "");
+		nanobind::class_<std::map<float,int>, std::shared_ptr<std::map<float,int>>> cl(M("std"), "map_float_int_t", "");
 		cl.def( pybind11::init( [](){ return new std::map<float,int>(); } ) );
 		cl.def( pybind11::init( [](const struct std::less<float> & a0){ return new std::map<float,int>(a0); } ), "doc" , pybind11::arg("__comp"));
 		cl.def( pybind11::init<const struct std::less<float> &, const class std::allocator<struct std::pair<const float, int> > &>(), pybind11::arg("__comp"), pybind11::arg("__a") );
@@ -113,7 +113,7 @@ void bind_std_functional_hash(std::function< pybind11::module &(std::string cons
 		cl.def("equal_range", (struct std::pair<struct std::_Rb_tree_iterator<struct std::pair<const float, int> >, struct std::_Rb_tree_iterator<struct std::pair<const float, int> > > (std::map<float,int>::*)(const float &)) &std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::equal_range, "C++: std::map<float, int, std::less<float>, std::allocator<std::pair<const float, int> > >::equal_range(const float &) --> struct std::pair<struct std::_Rb_tree_iterator<struct std::pair<const float, int> >, struct std::_Rb_tree_iterator<struct std::pair<const float, int> > >", pybind11::arg("__x"));
 	}
 	{ // std::map file:bits/stl_map.h line:
-		pybind11::class_<std::map<std::string,std::list<std::forward_list<std::deque<std::vector<double>>>>>, std::shared_ptr<std::map<std::string,std::list<std::forward_list<std::deque<std::vector<double>>>>>>> cl(M("std"), "map_std_string_std_list_std_forward_list_std_deque_std_vector_double_t", "");
+		nanobind::class_<std::map<std::string,std::list<std::forward_list<std::deque<std::vector<double>>>>>, std::shared_ptr<std::map<std::string,std::list<std::forward_list<std::deque<std::vector<double>>>>>>> cl(M("std"), "map_std_string_std_list_std_forward_list_std_deque_std_vector_double_t", "");
 		cl.def( pybind11::init( [](){ return new std::map<std::string,std::list<std::forward_list<std::deque<std::vector<double>>>>>(); } ) );
 		cl.def( pybind11::init( [](const struct std::less<std::string > & a0){ return new std::map<std::string,std::list<std::forward_list<std::deque<std::vector<double>>>>>(a0); } ), "doc" , pybind11::arg("__comp"));
 		cl.def( pybind11::init<const struct std::less<std::string > &, const class std::allocator<struct std::pair<const std::string, class std::list<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > >, class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > > > > &>(), pybind11::arg("__comp"), pybind11::arg("__a") );
@@ -169,7 +169,7 @@ void bind_std_functional_hash(std::function< pybind11::module &(std::string cons
 void bind_std_unordered_map(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // std::unordered_map file:bits/unordered_map.h line:
-		pybind11::class_<std::unordered_map<float,int>, std::shared_ptr<std::unordered_map<float,int>>> cl(M("std"), "unordered_map_float_int_t", "");
+		nanobind::class_<std::unordered_map<float,int>, std::shared_ptr<std::unordered_map<float,int>>> cl(M("std"), "unordered_map_float_int_t", "");
 		cl.def( pybind11::init( [](){ return new std::unordered_map<float,int>(); } ), "doc" );
 		cl.def( pybind11::init( [](unsigned long const & a0){ return new std::unordered_map<float,int>(a0); } ), "doc" , pybind11::arg("__n"));
 		cl.def( pybind11::init( [](unsigned long const & a0, const struct std::hash<float> & a1){ return new std::unordered_map<float,int>(a0, a1); } ), "doc" , pybind11::arg("__n"), pybind11::arg("__hf"));
@@ -203,7 +203,7 @@ void bind_std_unordered_map(std::function< pybind11::module &(std::string const 
 		cl.def("reserve", (void (std::unordered_map<float,int>::*)(unsigned long)) &std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::reserve, "C++: std::unordered_map<float, int, std::hash<float>, std::equal_to<float>, std::allocator<std::pair<const float, int> > >::reserve(unsigned long) --> void", pybind11::arg("__n"));
 	}
 	{ // std::unordered_map file:bits/unordered_map.h line:
-		pybind11::class_<std::unordered_map<std::string,std::list<std::forward_list<std::deque<std::vector<double>>>>,std::hash<std::string>,std::equal_to<std::string >,std::allocator<std::pair<const std::string, std::list<std::forward_list<std::deque<std::vector<double>>>> > >>, std::shared_ptr<std::unordered_map<std::string,std::list<std::forward_list<std::deque<std::vector<double>>>>,std::hash<std::string>,std::equal_to<std::string >,std::allocator<std::pair<const std::string, std::list<std::forward_list<std::deque<std::vector<double>>>> > >>>> cl(M("std"), "unordered_map_std_string_std_list_std_forward_list_std_deque_std_vector_double_std_hash_std_string_std_equal_to_std_string_std_allocator_std_pair_const_std_string_std_list_std_forward_list_std_deque_std_vector_double_t", "");
+		nanobind::class_<std::unordered_map<std::string,std::list<std::forward_list<std::deque<std::vector<double>>>>,std::hash<std::string>,std::equal_to<std::string >,std::allocator<std::pair<const std::string, std::list<std::forward_list<std::deque<std::vector<double>>>> > >>, std::shared_ptr<std::unordered_map<std::string,std::list<std::forward_list<std::deque<std::vector<double>>>>,std::hash<std::string>,std::equal_to<std::string >,std::allocator<std::pair<const std::string, std::list<std::forward_list<std::deque<std::vector<double>>>> > >>>> cl(M("std"), "unordered_map_std_string_std_list_std_forward_list_std_deque_std_vector_double_std_hash_std_string_std_equal_to_std_string_std_allocator_std_pair_const_std_string_std_list_std_forward_list_std_deque_std_vector_double_t", "");
 		cl.def( pybind11::init( [](){ return new std::unordered_map<std::string,std::list<std::forward_list<std::deque<std::vector<double>>>>,std::hash<std::string>,std::equal_to<std::string >,std::allocator<std::pair<const std::string, std::list<std::forward_list<std::deque<std::vector<double>>>> > >>(); } ), "doc" );
 		cl.def( pybind11::init( [](unsigned long const & a0){ return new std::unordered_map<std::string,std::list<std::forward_list<std::deque<std::vector<double>>>>,std::hash<std::string>,std::equal_to<std::string >,std::allocator<std::pair<const std::string, std::list<std::forward_list<std::deque<std::vector<double>>>> > >>(a0); } ), "doc" , pybind11::arg("__n"));
 		cl.def( pybind11::init( [](unsigned long const & a0, const struct std::hash<std::string> & a1){ return new std::unordered_map<std::string,std::list<std::forward_list<std::deque<std::vector<double>>>>,std::hash<std::string>,std::equal_to<std::string >,std::allocator<std::pair<const std::string, std::list<std::forward_list<std::deque<std::vector<double>>>> > >>(a0, a1); } ), "doc" , pybind11::arg("__n"), pybind11::arg("__hf"));
@@ -261,7 +261,7 @@ void bind_std_unordered_map(std::function< pybind11::module &(std::string const 
 void bind_std_stl_list(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // std::list file:bits/stl_list.h line:
-		pybind11::class_<std::list<std::forward_list<std::deque<std::vector<double>>>>, std::shared_ptr<std::list<std::forward_list<std::deque<std::vector<double>>>>>> cl(M("std"), "list_std_forward_list_std_deque_std_vector_double_t", "");
+		nanobind::class_<std::list<std::forward_list<std::deque<std::vector<double>>>>, std::shared_ptr<std::list<std::forward_list<std::deque<std::vector<double>>>>>> cl(M("std"), "list_std_forward_list_std_deque_std_vector_double_t", "");
 		cl.def( pybind11::init( [](){ return new std::list<std::forward_list<std::deque<std::vector<double>>>>(); } ) );
 		cl.def( pybind11::init<const class std::allocator<class std::forward_list<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > >, class std::allocator<class std::deque<class std::vector<double, class std::allocator<double> >, class std::allocator<class std::vector<double, class std::allocator<double> > > > > > > &>(), pybind11::arg("__a") );
 
@@ -382,7 +382,7 @@ PYBIND11_MODULE(T42_stl_names_map, root_module) {
 	};
 	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
-	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
+	//nanobind::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
 	bind_std_stl_function(M);
 	bind_std_functional_hash(M);

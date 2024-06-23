@@ -91,7 +91,7 @@ struct PyCallBack_Base : public Base {
 void bind_T11_override(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // Base file:T11.override.hpp line:
-		pybind11::class_<Base, std::shared_ptr<Base>, PyCallBack_Base> cl(M(""), "Base", "");
+		nanobind::class_<Base, std::shared_ptr<Base>, PyCallBack_Base> cl(M(""), "Base", "");
 		cl.def( pybind11::init( [](){ return new PyCallBack_Base(); } ) );
 		cl.def(pybind11::init<PyCallBack_Base const &>());
 		cl.def_readwrite("s_", &Base::s_);
@@ -144,7 +144,7 @@ PYBIND11_MODULE(T11_override, root_module) {
 	};
 	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
-	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
+	//nanobind::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
 	bind_T11_override(M);
 

@@ -45,7 +45,7 @@ void bind_T61_smart_holder(std::function< pybind11::module &(std::string const &
 
 	{ // A file:T61.smart_holder.hpp line:28
 		PYBIND11_TYPE_CASTER_BASE_HOLDER(A<int> , my_shared_ptr<A<int>>)
-		pybind11::class_<A<int>, my_shared_ptr<A<int>>> cl(M(""), "A_int_t", "");
+		nanobind::class_<A<int>, my_shared_ptr<A<int>>> cl(M(""), "A_int_t", "");
 		cl.def( pybind11::init( [](){ return new A<int>(); } ) );
 
 		pybind11::enum_<A<int>::AE1>(cl, "AE1", pybind11::arithmetic(), "")
@@ -112,7 +112,7 @@ PYBIND11_MODULE(T61_smart_holder, root_module) {
 	};
 	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
-	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
+	//nanobind::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
 	bind_T61_smart_holder(M);
 

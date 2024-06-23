@@ -189,7 +189,7 @@ struct PyCallBack_X : public X {
 void bind_T10_inheritance(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // Base file:T10.inheritance.hpp line:
-		pybind11::class_<Base, std::shared_ptr<Base>, PyCallBack_Base> cl(M(""), "Base", "");
+		nanobind::class_<Base, std::shared_ptr<Base>, PyCallBack_Base> cl(M(""), "Base", "");
 		cl.def( pybind11::init( [](){ return new Base(); }, [](){ return new PyCallBack_Base(); } ) );
 		cl.def("foo", (void (Base::*)()) &Base::foo, "C++: Base::foo() --> void");
 		cl.def("maybe", (void (Base::*)()) &Base::maybe, "C++: Base::maybe() --> void");
@@ -198,35 +198,35 @@ void bind_T10_inheritance(std::function< pybind11::module &(std::string const &n
 		cl.def("assign", (class Base & (Base::*)(const class Base &)) &Base::operator=, "C++: Base::operator=(const class Base &) --> class Base &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
 	{ // Derived file:T10.inheritance.hpp line:
-		pybind11::class_<Derived, std::shared_ptr<Derived>, PyCallBack_Derived, Base> cl(M(""), "Derived", "");
+		nanobind::class_<Derived, std::shared_ptr<Derived>, PyCallBack_Derived, Base> cl(M(""), "Derived", "");
 		cl.def( pybind11::init( [](){ return new Derived(); }, [](){ return new PyCallBack_Derived(); } ) );
 		cl.def_readwrite("data", &Derived::data);
 		cl.def("foo_protected", [](Derived &o) -> void { return o.foo_protected(); }, "");
 		cl.def("assign", (class Derived & (Derived::*)(const class Derived &)) &Derived::operator=, "C++: Derived::operator=(const class Derived &) --> class Derived &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
 	{ // Delete file:T10.inheritance.hpp line:
-		pybind11::class_<Delete, std::shared_ptr<Delete>, PyCallBack_Delete, Base> cl(M(""), "Delete", "");
+		nanobind::class_<Delete, std::shared_ptr<Delete>, PyCallBack_Delete, Base> cl(M(""), "Delete", "");
 		cl.def("assign", (class Delete & (Delete::*)(const class Delete &)) &Delete::operator=, "C++: Delete::operator=(const class Delete &) --> class Delete &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
 	{ // A file:T10.inheritance.hpp line:
-		pybind11::class_<A, std::shared_ptr<A>> cl(M(""), "A", "");
+		nanobind::class_<A, std::shared_ptr<A>> cl(M(""), "A", "");
 		cl.def( pybind11::init( [](){ return new A(); } ) );
 		cl.def( pybind11::init( [](A const &o){ return new A(o); } ) );
 		cl.def("assign", (class A & (A::*)(const class A &)) &A::operator=, "C++: A::operator=(const class A &) --> class A &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
 	{ // B file:T10.inheritance.hpp line:
-		pybind11::class_<B, std::shared_ptr<B>> cl(M(""), "B", "");
+		nanobind::class_<B, std::shared_ptr<B>> cl(M(""), "B", "");
 		cl.def( pybind11::init( [](B const &o){ return new B(o); } ) );
 		cl.def("assign", (class B & (B::*)(const class B &)) &B::operator=, "C++: B::operator=(const class B &) --> class B &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
 	{ // X file:T10.inheritance.hpp line:
-		pybind11::class_<X, std::shared_ptr<X>, PyCallBack_X, Base> cl(M(""), "X", "");
+		nanobind::class_<X, std::shared_ptr<X>, PyCallBack_X, Base> cl(M(""), "X", "");
 		cl.def( pybind11::init( [](){ return new X(); }, [](){ return new PyCallBack_X(); } ) );
 		cl.def("f_v", (void (X::*)()) &X::f_v, "C++: X::f_v() --> void");
 		cl.def("assign", (class X & (X::*)(const class X &)) &X::operator=, "C++: X::operator=(const class X &) --> class X &", pybind11::return_value_policy::automatic, pybind11::arg(""));
 	}
 	{ // Y file:T10.inheritance.hpp line:
-		pybind11::class_<Y, std::shared_ptr<Y>, X> cl(M(""), "Y", "");
+		nanobind::class_<Y, std::shared_ptr<Y>, X> cl(M(""), "Y", "");
 		cl.def( pybind11::init( [](){ return new Y(); } ) );
 		cl.def("f_v_2", (void (Y::*)()) &Y::f_v_2, "C++: Y::f_v_2() --> void");
 		cl.def("assign", (class Y & (Y::*)(const class Y &)) &Y::operator=, "C++: Y::operator=(const class Y &) --> class Y &", pybind11::return_value_policy::automatic, pybind11::arg(""));
@@ -273,7 +273,7 @@ PYBIND11_MODULE(T10_inheritance, root_module) {
 	};
 	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
-	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
+	//nanobind::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
 	bind_T10_inheritance(M);
 

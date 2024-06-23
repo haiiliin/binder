@@ -18,27 +18,27 @@
 void bind_T15_inner_class_fwd(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // outer file:T15.inner_class.fwd.hpp line:
-		pybind11::class_<outer, std::shared_ptr<outer>> cl(M(""), "outer", "binder/test/T15.inner_class.fwd.hpp\n \n\n  Binder self-test file. Tests for bindings of forward declared inner functions.");
+		nanobind::class_<outer, std::shared_ptr<outer>> cl(M(""), "outer", "binder/test/T15.inner_class.fwd.hpp\n \n\n  Binder self-test file. Tests for bindings of forward declared inner functions.");
 		cl.def( pybind11::init( [](){ return new outer(); } ) );
 		cl.def("f", (void (outer::*)(struct outer::inner *, struct outer::inner2 *, struct outer::inner3 *)) &outer::f, "C++: outer::f(struct outer::inner *, struct outer::inner2 *, struct outer::inner3 *) --> void", pybind11::arg("i"), pybind11::arg("i2"), pybind11::arg("i3"));
 
 		{ // outer::inner file:T15.inner_class.fwd.hpp line:
 			auto & enclosing_class = cl;
-			pybind11::class_<outer::inner, std::shared_ptr<outer::inner>> cl(enclosing_class, "inner", "");
+			nanobind::class_<outer::inner, std::shared_ptr<outer::inner>> cl(enclosing_class, "inner", "");
 			cl.def( pybind11::init( [](){ return new outer::inner(); } ) );
 			cl.def_readwrite("a", &outer::inner::a);
 		}
 
 		{ // outer::inner2 file:T15.inner_class.fwd.hpp line:
 			auto & enclosing_class = cl;
-			pybind11::class_<outer::inner2, std::shared_ptr<outer::inner2>> cl(enclosing_class, "inner2", "");
+			nanobind::class_<outer::inner2, std::shared_ptr<outer::inner2>> cl(enclosing_class, "inner2", "");
 			cl.def( pybind11::init( [](){ return new outer::inner2(); } ) );
 			cl.def_readwrite("b", &outer::inner2::b);
 		}
 
 		{ // outer::inner3 file:T15.inner_class.fwd.hpp line:
 			auto & enclosing_class = cl;
-			pybind11::class_<outer::inner3, std::shared_ptr<outer::inner3>> cl(enclosing_class, "inner3", "");
+			nanobind::class_<outer::inner3, std::shared_ptr<outer::inner3>> cl(enclosing_class, "inner3", "");
 			cl.def( pybind11::init( [](){ return new outer::inner3(); } ) );
 			cl.def_readwrite("c", &outer::inner3::c);
 		}
@@ -86,7 +86,7 @@ PYBIND11_MODULE(T15_inner_class_fwd, root_module) {
 	};
 	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
-	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
+	//nanobind::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
 	bind_T15_inner_class_fwd(M);
 

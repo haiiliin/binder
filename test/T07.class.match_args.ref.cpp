@@ -16,7 +16,7 @@
 void bind_T07_class_match_args(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // MatchArgs file:T07.class.match_args.hpp line:
-		pybind11::class_<MatchArgs, std::shared_ptr<MatchArgs>> cl(M(""), "MatchArgs", "");
+		nanobind::class_<MatchArgs, std::shared_ptr<MatchArgs>> cl(M(""), "MatchArgs", "");
 		cl.def( pybind11::init( [](){ return new MatchArgs(); } ) );
 		cl.def( pybind11::init( [](MatchArgs const &o){ return new MatchArgs(o); } ) );
 		cl.def_readonly("__match_args__", &MatchArgs::__match_args__);
@@ -65,7 +65,7 @@ PYBIND11_MODULE(T07_class_match_args, root_module) {
 	};
 	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
-	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
+	//nanobind::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
 	bind_T07_class_match_args(M);
 

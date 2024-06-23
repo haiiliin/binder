@@ -16,7 +16,7 @@
 void bind_T30_include_incl_a_include(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // aaaa::A file:T30.include.incl.a.include line:
-		pybind11::class_<aaaa::A, std::shared_ptr<aaaa::A>> cl(M("aaaa"), "A", "");
+		nanobind::class_<aaaa::A, std::shared_ptr<aaaa::A>> cl(M("aaaa"), "A", "");
 		cl.def( pybind11::init( [](){ return new aaaa::A(); } ) );
 	}
 }
@@ -41,7 +41,7 @@ void bind_T30_include_incl_a_include(std::function< pybind11::module &(std::stri
 void bind_T30_include_incl_b_include(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // bbbb::B file:T30.include.incl.b.include line:
-		pybind11::class_<bbbb::B<aaaa::A>, std::shared_ptr<bbbb::B<aaaa::A>>> cl(M("bbbb"), "B_aaaa_A_t", "");
+		nanobind::class_<bbbb::B<aaaa::A>, std::shared_ptr<bbbb::B<aaaa::A>>> cl(M("bbbb"), "B_aaaa_A_t", "");
 		cl.def( pybind11::init( [](){ return new bbbb::B<aaaa::A>(); } ) );
 	}
 }
@@ -114,7 +114,7 @@ PYBIND11_MODULE(T30_include, root_module) {
 	};
 	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
-	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
+	//nanobind::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
 	bind_T30_include_incl_a_include(M);
 	bind_T30_include_incl_b_include(M);

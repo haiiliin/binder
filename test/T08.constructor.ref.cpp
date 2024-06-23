@@ -23,36 +23,36 @@
 void bind_T08_constructor(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // BaseA file:T08.constructor.hpp line:
-		pybind11::class_<BaseA, std::shared_ptr<BaseA>> cl(M(""), "BaseA", "");
+		nanobind::class_<BaseA, std::shared_ptr<BaseA>> cl(M(""), "BaseA", "");
 		cl.def( pybind11::init( [](){ return new BaseA(); } ) );
 	}
 	{ // DerivedA file:T08.constructor.hpp line:
-		pybind11::class_<DerivedA, std::shared_ptr<DerivedA>, BaseA> cl(M(""), "DerivedA", "");
+		nanobind::class_<DerivedA, std::shared_ptr<DerivedA>, BaseA> cl(M(""), "DerivedA", "");
 		cl.def( pybind11::init( [](){ return new DerivedA(); } ) );
 	}
 	{ // BaseB file:T08.constructor.hpp line:
-		pybind11::class_<BaseB, std::shared_ptr<BaseB>> cl(M(""), "BaseB", "");
+		nanobind::class_<BaseB, std::shared_ptr<BaseB>> cl(M(""), "BaseB", "");
 		cl.def( pybind11::init<int>(), pybind11::arg("") );
 
 	}
 	{ // DerivedB file:T08.constructor.hpp line:
-		pybind11::class_<DerivedB, std::shared_ptr<DerivedB>, BaseB> cl(M(""), "DerivedB", "");
+		nanobind::class_<DerivedB, std::shared_ptr<DerivedB>, BaseB> cl(M(""), "DerivedB", "");
 	}
 	{ // BaseC file:T08.constructor.hpp line:
-		pybind11::class_<BaseC, std::shared_ptr<BaseC>> cl(M(""), "BaseC", "");
+		nanobind::class_<BaseC, std::shared_ptr<BaseC>> cl(M(""), "BaseC", "");
 		cl.def( pybind11::init<int>(), pybind11::arg("") );
 
 	}
 	{ // DerivedC file:T08.constructor.hpp line:
-		pybind11::class_<DerivedC, std::shared_ptr<DerivedC>, BaseC> cl(M(""), "DerivedC", "");
+		nanobind::class_<DerivedC, std::shared_ptr<DerivedC>, BaseC> cl(M(""), "DerivedC", "");
 	}
 	{ // BaseD file:T08.constructor.hpp line:
-		pybind11::class_<BaseD, std::shared_ptr<BaseD>> cl(M(""), "BaseD", "");
+		nanobind::class_<BaseD, std::shared_ptr<BaseD>> cl(M(""), "BaseD", "");
 		cl.def( pybind11::init<int>(), pybind11::arg("") );
 
 	}
 	{ // DerivedD file:T08.constructor.hpp line:
-		pybind11::class_<DerivedD, std::shared_ptr<DerivedD>, BaseD> cl(M(""), "DerivedD", "");
+		nanobind::class_<DerivedD, std::shared_ptr<DerivedD>, BaseD> cl(M(""), "DerivedD", "");
 	}
 }
 
@@ -96,7 +96,7 @@ PYBIND11_MODULE(T08_constructor, root_module) {
 	};
 	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
-	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
+	//nanobind::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
 	bind_T08_constructor(M);
 

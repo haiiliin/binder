@@ -22,31 +22,31 @@
 void bind_T15_copy(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // POD1 file:T15.copy.hpp line:
-		pybind11::class_<POD1, std::shared_ptr<POD1>> cl(M(""), "POD1", "");
+		nanobind::class_<POD1, std::shared_ptr<POD1>> cl(M(""), "POD1", "");
 		cl.def( pybind11::init( [](){ return new POD1(); } ) );
 	}
 	{ // POD2 file:T15.copy.hpp line:
-		pybind11::class_<POD2, std::shared_ptr<POD2>> cl(M(""), "POD2", "");
+		nanobind::class_<POD2, std::shared_ptr<POD2>> cl(M(""), "POD2", "");
 		cl.def( pybind11::init( [](POD2 const &o){ return new POD2(o); } ) );
 	}
 	{ // POD3 file:T15.copy.hpp line:
-		pybind11::class_<POD3, std::shared_ptr<POD3>> cl(M(""), "POD3", "");
+		nanobind::class_<POD3, std::shared_ptr<POD3>> cl(M(""), "POD3", "");
 		cl.def( pybind11::init( [](POD3 const &o){ return new POD3(o); } ) );
 	}
 	{ // POD4 file:T15.copy.hpp line:
-		pybind11::class_<POD4, std::shared_ptr<POD4>> cl(M(""), "POD4", "");
+		nanobind::class_<POD4, std::shared_ptr<POD4>> cl(M(""), "POD4", "");
 		cl.def( pybind11::init( [](POD4 const &o){ return new POD4(o); } ) );
 		cl.def_readwrite("a", &POD4::a);
 	}
 	{ // POD5 file:T15.copy.hpp line:
-		pybind11::class_<POD5, std::shared_ptr<POD5>> cl(M(""), "POD5", "");
+		nanobind::class_<POD5, std::shared_ptr<POD5>> cl(M(""), "POD5", "");
 	}
 	{ // POD6 file:T15.copy.hpp line:
-		pybind11::class_<POD6, std::shared_ptr<POD6>> cl(M(""), "POD6", "");
+		nanobind::class_<POD6, std::shared_ptr<POD6>> cl(M(""), "POD6", "");
 		cl.def_readwrite("a", &POD6::a);
 	}
 	{ // Data1 file:T15.copy.hpp line:
-		pybind11::class_<Data1, std::shared_ptr<Data1>> cl(M(""), "Data1", "");
+		nanobind::class_<Data1, std::shared_ptr<Data1>> cl(M(""), "Data1", "");
 		cl.def( pybind11::init( [](Data1 const &o){ return new Data1(o); } ) );
 	}
 }
@@ -91,7 +91,7 @@ PYBIND11_MODULE(T15_copy, root_module) {
 	};
 	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
-	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
+	//nanobind::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
 	bind_T15_copy(M);
 

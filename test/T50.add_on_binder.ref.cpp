@@ -16,7 +16,7 @@
 void bind_T50_add_on_binder(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // Matrix file:T50.add_on_binder.hpp line:
-		pybind11::class_<Matrix<int>, std::shared_ptr<Matrix<int>>> cl(M(""), "Matrix_int_t", "");
+		nanobind::class_<Matrix<int>, std::shared_ptr<Matrix<int>>> cl(M(""), "Matrix_int_t", "");
 		cl.def( pybind11::init( [](){ return new Matrix<int>(); } ) );
 
 		details::matrix_add_on_binder(cl);
@@ -63,7 +63,7 @@ PYBIND11_MODULE(T50_add_on_binder, root_module) {
 	};
 	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
-	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
+	//nanobind::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
 	bind_T50_add_on_binder(M);
 

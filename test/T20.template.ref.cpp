@@ -28,7 +28,7 @@ void bind_T20_template(std::function< pybind11::module &(std::string const &name
 	M("").def("foo", (void (*)()) &foo<double>, "C++: foo() --> void");
 
 	{ // A file:T20.template.hpp line:
-		pybind11::class_<A<int>, std::shared_ptr<A<int>>> cl(M(""), "A_int_t", "");
+		nanobind::class_<A<int>, std::shared_ptr<A<int>>> cl(M(""), "A_int_t", "");
 		cl.def( pybind11::init( [](){ return new A<int>(); } ) );
 		cl.def_readwrite("t_value", &A<int>::t_value);
 		cl.def("foo", (void (A<int>::*)(int &)) &A<int>::foo, "C++: A<int>::foo(int &) --> void", pybind11::arg(""));
@@ -67,7 +67,7 @@ void bind_T20_template(std::function< pybind11::module &(std::string const &name
 	M("").def("instantiate", (void (*)()) &instantiate, "C++: instantiate() --> void");
 
 	{ // TemplateSpecialization file:T20.template.hpp line:
-		pybind11::class_<TemplateSpecialization<float>, std::shared_ptr<TemplateSpecialization<float>>> cl(M(""), "TemplateSpecialization_float_t", "");
+		nanobind::class_<TemplateSpecialization<float>, std::shared_ptr<TemplateSpecialization<float>>> cl(M(""), "TemplateSpecialization_float_t", "");
 		cl.def( pybind11::init( [](){ return new TemplateSpecialization<float>(); } ) );
 		cl.def_readwrite("data", &TemplateSpecialization<float>::data);
 	}
@@ -113,7 +113,7 @@ PYBIND11_MODULE(T20_template, root_module) {
 	};
 	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
-	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
+	//nanobind::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
 	bind_T20_template(M);
 

@@ -18,7 +18,7 @@
 void bind_T70_options(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // aaaa::AAAA file:T70.options.hpp line:
-		pybind11::class_<aaaa::AAAA, std::shared_ptr<aaaa::AAAA>> cl(M("aaaa"), "AAAA", "");
+		nanobind::class_<aaaa::AAAA, std::shared_ptr<aaaa::AAAA>> cl(M("aaaa"), "AAAA", "");
 		cl.def( pybind11::init( [](){ return new aaaa::AAAA(); } ) );
 		cl.def("foo", (void (aaaa::AAAA::*)()) &aaaa::AAAA::foo, "C++: aaaa::AAAA::foo() --> void");
 		cl.def_static("static_foo", (void (*)(int)) &aaaa::AAAA::foo, "C++: aaaa::AAAA::foo(int) --> void", pybind11::arg(""));
@@ -56,7 +56,7 @@ void bind_T70_options(std::function< pybind11::module &(std::string const &names
 void bind_T70_options_1(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // aaaa::cccc::CCCC file:T70.options.hpp line:
-		pybind11::class_<aaaa::cccc::CCCC, std::shared_ptr<aaaa::cccc::CCCC>> cl(M("aaaa::cccc"), "CCCC", "");
+		nanobind::class_<aaaa::cccc::CCCC, std::shared_ptr<aaaa::cccc::CCCC>> cl(M("aaaa::cccc"), "CCCC", "");
 		cl.def( pybind11::init( [](){ return new aaaa::cccc::CCCC(); } ) );
 	}
 	// aaaa::cccc::foo_CCCC() file:T70.options.hpp line:
@@ -84,7 +84,7 @@ void bind_T70_options_1(std::function< pybind11::module &(std::string const &nam
 void bind_T70_options_2(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // aaaa::bbbb::BBBB file:T70.options.hpp line:
-		pybind11::class_<aaaa::bbbb::BBBB, std::shared_ptr<aaaa::bbbb::BBBB>> cl(M("aaaa::bbbb"), "BBBB", "");
+		nanobind::class_<aaaa::bbbb::BBBB, std::shared_ptr<aaaa::bbbb::BBBB>> cl(M("aaaa::bbbb"), "BBBB", "");
 		cl.def( pybind11::init( [](){ return new aaaa::bbbb::BBBB(); } ) );
 	}
 	// aaaa::bbbb::foo_bbbb() file:T70.options.hpp line:
@@ -137,7 +137,7 @@ PYBIND11_MODULE(T70_options, root_module) {
 	};
 	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
-	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
+	//nanobind::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
 	bind_T70_options(M);
 	bind_T70_options_1(M);

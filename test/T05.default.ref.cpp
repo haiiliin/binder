@@ -29,12 +29,12 @@ void bind_T05_default(std::function< pybind11::module &(std::string const &names
 	M("").def("foo", (double (*)(int, int, int &, float, const double &, void *, int)) &foo, "C++: foo(int, int, int &, float, const double &, void *, int) --> double", pybind11::arg("a"), pybind11::arg("i1"), pybind11::arg("i2"), pybind11::arg("f"), pybind11::arg("d"), pybind11::arg("p"), pybind11::arg("q"));
 
 	{ // A file:T05.default.hpp line:
-		pybind11::class_<A, std::shared_ptr<A>> cl(M(""), "A", "");
+		nanobind::class_<A, std::shared_ptr<A>> cl(M(""), "A", "");
 		cl.def( pybind11::init( [](){ return new A(); } ) );
 		cl.def( pybind11::init( [](A const &o){ return new A(o); } ) );
 	}
 	{ // B file:T05.default.hpp line:
-		pybind11::class_<B, std::shared_ptr<B>> cl(M(""), "B", "");
+		nanobind::class_<B, std::shared_ptr<B>> cl(M(""), "B", "");
 		cl.def( pybind11::init( [](){ return new B(); } ), "doc" );
 		cl.def( pybind11::init( [](const int & a0){ return new B(a0); } ), "doc" , pybind11::arg("a"));
 		cl.def( pybind11::init( [](const int & a0, float const & a1){ return new B(a0, a1); } ), "doc" , pybind11::arg("a"), pybind11::arg("b"));
@@ -108,7 +108,7 @@ PYBIND11_MODULE(T05_default, root_module) {
 	};
 	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
-	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
+	//nanobind::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
 	bind_T05_default(M);
 

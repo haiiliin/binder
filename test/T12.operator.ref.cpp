@@ -16,7 +16,7 @@
 void bind_T12_operator(std::function< pybind11::module &(std::string const &namespace_) > &M)
 {
 	{ // T file:T12.operator.hpp line:
-		pybind11::class_<T, std::shared_ptr<T>> cl(M(""), "T", "");
+		nanobind::class_<T, std::shared_ptr<T>> cl(M(""), "T", "");
 		cl.def( pybind11::init( [](){ return new T(); } ) );
 		cl.def("__invert__", (struct T & (T::*)()) &T::operator~, "C++: T::operator~() --> struct T &", pybind11::return_value_policy::automatic);
 		cl.def("__pos__", (struct T & (T::*)()) &T::operator+, "C++: T::operator+() --> struct T &", pybind11::return_value_policy::automatic);
@@ -94,7 +94,7 @@ PYBIND11_MODULE(T12_operator, root_module) {
 	};
 	for(auto &p : sub_modules ) modules[p.first.size() ? p.first+"::"+p.second : p.second] = modules[p.first].def_submodule( mangle_namespace_name(p.second).c_str(), ("Bindings for " + p.first + "::" + p.second + " namespace").c_str() );
 
-	//pybind11::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
+	//nanobind::class_<std::shared_ptr<void>>(M(""), "_encapsulated_data_");
 
 	bind_T12_operator(M);
 
