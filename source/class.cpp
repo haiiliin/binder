@@ -162,8 +162,8 @@ string bind_data_member(FieldDecl const *d, string const &class_qualified_name_)
 		if( ends_with(class_qualified_name, anonymous) ) class_qualified_name.resize(class_qualified_name.size() - anonymous.size());
 	}
 
-	if( d->getType().isConstQualified() or !is_field_assignable(d) ) return ".def_readonly(\"{}\", &{}::{})"_format(d->getNameAsString(), class_qualified_name, d->getNameAsString());
-	else return ".def_readwrite(\"{}\", &{}::{})"_format(d->getNameAsString(), class_qualified_name, d->getNameAsString());
+	if( d->getType().isConstQualified() or !is_field_assignable(d) ) return ".def_ro(\"{}\", &{}::{})"_format(d->getNameAsString(), class_qualified_name, d->getNameAsString());
+	else return ".def_rw(\"{}\", &{}::{})"_format(d->getNameAsString(), class_qualified_name, d->getNameAsString());
 }
 
 
@@ -671,7 +671,7 @@ bool is_callback_structure_constructible(CXXRecordDecl const *C)
 }
 
 /*
-// call_back_function_body_template is almost like PYBIND11_OVERLOAD_INT but specify pybind11::return_value_policy::reference
+// call_back_function_body_template is almost like PYBIND11_OVERLOAD_INT but specify nanobind::rv_policy::reference
 // #define PYBIND11_OVERLOAD_INT(ret_type, cname, name, ...) { \
 //         pybind11::gil_scoped_acquire gil; \
 //         pybind11::function overload = pybind11::get_overload(static_cast<const cname *>(this), name); \
@@ -695,7 +695,7 @@ const char *call_back_function_body_template = R"_(
 pybind11::gil_scoped_acquire gil;
 pybind11::function overload = pybind11::get_overload(static_cast<const {0} *>(this), "{1}");
 if (overload) {{
-	auto o = overload.operator()<pybind11::return_value_policy::reference>({2});
+	auto o = overload.operator()<nanobind::rv_policy::reference>({2});
 	if (pybind11::detail::cast_is_temporary_value_reference<{3}>::value) {{
 		static pybind11::detail::override_caster_t<{3}> caster;
 		return pybind11::detail::cast_ref<{3}>(std::move(o), caster);

@@ -93,7 +93,7 @@ using ModuleGetter = std::function< pybind11::module & (std::string const &) >;
 
 {1}
 
-PYBIND11_MODULE({2}, root_module) {{
+NB_MODULE({2}, root_module) {{
 	root_module.doc() = "{2} module";
 
 	std::map <std::string, pybind11::module> modules;
@@ -440,7 +440,7 @@ void Context::generate(Config const &config)
 		string shared_declare = "PYBIND11_DECLARE_HOLDER_TYPE(T, "+holder_type+"<T>, false)";
 		string shared_make_opaque = "PYBIND11_MAKE_OPAQUE("+holder_type+"<void>)";
 
-		string const pybind11_include = "#include <" + Config::get().pybind11_include_file() + ">";
+		string const pybind11_include = "#include <" + Config::get().nanobind_include_file() + ">";
 		code = generate_include_directives(includes) + fmt::format(module_header, pybind11_include, config.includes_code(), shared_declare, shared_make_opaque) + prefix_code + "void " + function_name + module_function_suffix + "\n{\n" + code + "}\n";
 
 		if( O_single_file ) root_module_file_handle << "// File: " << file_name << '\n' << code << "\n\n";
@@ -466,7 +466,7 @@ void Context::generate(Config const &config)
 		binding_function_calls += "\t" + f + "(M);\n";
 	}
 
-	string const pybind11_include = "#include <" + Config::get().pybind11_include_file() + ">";
+	string const pybind11_include = "#include <" + Config::get().nanobind_include_file() + ">";
 
 	std::stringstream s;
 	s << fmt::format(main_module_header, pybind11_include, binding_function_decls, config.root_module, namespace_pairs, binding_function_calls);

@@ -43,16 +43,16 @@ private:
 
 	std::map<string, std::vector<string> > class_includes_, namespace_includes_;
 
-	string default_static_pointer_return_value_policy_ = "pybind11::return_value_policy::automatic";
-	string default_static_lvalue_reference_return_value_policy_ = "pybind11::return_value_policy::automatic";
-	string default_static_rvalue_reference_return_value_policy_ = "pybind11::return_value_policy::automatic";
+	string default_static_pointer_return_value_policy_ = "nanobind::rv_policy::automatic";
+	string default_static_lvalue_reference_return_value_policy_ = "nanobind::rv_policy::automatic";
+	string default_static_rvalue_reference_return_value_policy_ = "nanobind::rv_policy::automatic";
 
-	string default_member_pointer_return_value_policy_ = "pybind11::return_value_policy::automatic";
-	string default_member_lvalue_reference_return_value_policy_ = "pybind11::return_value_policy::automatic";
-	string default_member_rvalue_reference_return_value_policy_ = "pybind11::return_value_policy::automatic";
+	string default_member_pointer_return_value_policy_ = "nanobind::rv_policy::automatic";
+	string default_member_lvalue_reference_return_value_policy_ = "nanobind::rv_policy::automatic";
+	string default_member_rvalue_reference_return_value_policy_ = "nanobind::rv_policy::automatic";
 	string default_call_guard_ = "";
 	string holder_type_ = "std::shared_ptr";
-	string pybind11_include_file_ = "pybind11/pybind11.h";
+	string nanobind_include_file_ = "nanobind/nanobind.h";
 	string prefix_for_static_member_functions_ = "";
 
 	std::vector<string> enums_to_bind, enums_to_skip;
@@ -91,7 +91,7 @@ public:
 	string const &prefix_for_static_member_functions() { return prefix_for_static_member_functions_; }
 
 	string const &holder_type() const { return holder_type_; }
-	string const &pybind11_include_file() const { return pybind11_include_file_; }
+	string const &nanobind_include_file() const { return nanobind_include_file_; }
 
 	string prefix;
 

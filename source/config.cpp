@@ -79,7 +79,7 @@ void Config::read(string const &file_name)
 
 	string const _smart_holder_{"smart_holder"};
 
-	string const _pybind11_include_file_{"pybind11_include_file"};
+	string const _nanobind_include_file_{"nanobind_include_file"};
 
 	string const _default_static_pointer_return_value_policy_{"default_static_pointer_return_value_policy"};
 	string const _default_static_lvalue_reference_return_value_policy_{"default_static_lvalue_reference_return_value_policy"};
@@ -226,8 +226,8 @@ void Config::read(string const &file_name)
 			}
 		}
 
-		else if( token == _pybind11_include_file_ ) {
-			pybind11_include_file_ = name_without_spaces;
+		else if( token == _nanobind_include_file_ ) {
+			nanobind_include_file_ = name_without_spaces;
 		}
 
 		else if( token == _default_static_pointer_return_value_policy_ ) default_static_pointer_return_value_policy_ = name_without_spaces;
@@ -486,7 +486,28 @@ string Config::includes_code() const
 {
 	std::ostringstream s;
 	for( auto &i : includes_to_add ) s << "#include " << i << "\n";
-	if (O_include_pybind11_stl) s << "#include <pybind11/stl.h>\n";
+	if (O_include_nanobind_stl) {
+		s << "#include <nanobind/stl/stl_bind.h>\n";
+		s << "#include <nanobind/stl/chrono.h>\n";
+		s << "#include <nanobind/stl/complex.h>\n";
+		s << "#include <nanobind/stl/filesystem.h>\n";
+		s << "#include <nanobind/stl/functional.h>\n";
+		s << "#include <nanobind/stl/list.h>\n";
+		s << "#include <nanobind/stl/map.h>\n";
+		s << "#include <nanobind/stl/optional.h>\n";
+		s << "#include <nanobind/stl/pair.h>\n";
+		s << "#include <nanobind/stl/set.h>\n";
+		s << "#include <nanobind/stl/shared_ptr.h>\n";
+		s << "#include <nanobind/stl/string.h>\n";
+		s << "#include <nanobind/stl/string_view.h>\n";
+		s << "#include <nanobind/stl/tuple.h>\n";
+		s << "#include <nanobind/stl/unique_ptr.h>\n";
+		s << "#include <nanobind/stl/unordered_map.h>\n";
+		s << "#include <nanobind/stl/unordered_set.h>\n";
+		s << "#include <nanobind/stl/variant.h>\n";
+		s << "#include <nanobind/stl/vector.h>\n";
+		s << "#include <nanobind/stl/wstring.h>\n";
+	}
 	if (s.tellp() != std::streampos(0)) s << '\n';
 	return s.str();
 }
