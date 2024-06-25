@@ -56,14 +56,14 @@ else()
     COMMAND C_INCLUDE_PATH=${APPLE_C_AND_CPP_INCLUDE_PATH}  CPLUS_INCLUDE_PATH=${APPLE_C_AND_CPP_INCLUDE_PATH}
       ${CMAKE_BINARY_DIR}/source/binder --bind ""  -max-file-size=100000
       --root-module ${stestnamenodot} --prefix ${CMAKE_CURRENT_BINARY_DIR}/ ${${stestname}_config_flag} --single-file  --annotate-includes  ${CMAKE_CURRENT_BINARY_DIR}/${stestname}.hpp.include ${${stestname}_cli_flags}
-      -- -x c++ -std=c++11   -I . -I ${CMAKE_CURRENT_SOURCE_DIR}  -isystem /  -I ${CLANG_INCLUDE_DIRS}   -isysroot${APPLE_ISYSROOT_DIR} -iwithsysroot${APPLE_BASE_CPP_INCLUDE_PATH} -iwithsysroot${APPLE_BASE_C_INCLUDE_PATH} -isystem${LibClang_INCLUDE_DIR}
+      -- -x c++ -std=c++14   -I . -I ${CMAKE_CURRENT_SOURCE_DIR} -I eigen  -isystem /  -I ${CLANG_INCLUDE_DIRS}   -isysroot${APPLE_ISYSROOT_DIR} -iwithsysroot${APPLE_BASE_CPP_INCLUDE_PATH} -iwithsysroot${APPLE_BASE_C_INCLUDE_PATH} -isystem${LibClang_INCLUDE_DIR}
       WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" VERBATIM)
   else()
     ADD_CUSTOM_TARGET(target${stestnamenodot}cpp
     #The first two expressions below are for older clang
     COMMAND C_INCLUDE_PATH=${LibClang_INCLUDE_DIR}   CPLUS_INCLUDE_PATH=${LibClang_INCLUDE_DIR}  ${CMAKE_BINARY_DIR}/source/binder --bind ""  -max-file-size=100000
       --root-module ${stestnamenodot} --prefix ${CMAKE_CURRENT_BINARY_DIR}/ ${${stestname}_config_flag} --single-file  --annotate-includes  ${CMAKE_CURRENT_BINARY_DIR}/${stestname}.hpp.include ${${stestname}_cli_flags}
-      -- -x c++ -std=c++11   -I . -I ${CMAKE_CURRENT_SOURCE_DIR}  -isystem /  -I ${CLANG_INCLUDE_DIRS}   -iwithsysroot${LibClang_INCLUDE_DIR}
+      -- -x c++ -std=c++14   -I . -I ${CMAKE_CURRENT_SOURCE_DIR} -I eigen  -isystem /  -I ${CLANG_INCLUDE_DIRS}   -iwithsysroot${LibClang_INCLUDE_DIR}
       WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" VERBATIM)
   endif()
   add_dependencies(target${stestnamenodot}cpp binder)
@@ -100,7 +100,7 @@ macro( binder_test testname vers)
                                                LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/py${vers}/${CMAKE_INSTALL_LIBDIR}/$<0:>
                                                RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/py${vers}/${CMAKE_INSTALL_LIBDIR}/$<0:>)
     target_compile_definitions(${testnamenodot}${vers} PRIVATE ${testnamenodot}_EXPORTS )
-    target_include_directories( ${testnamenodot}${vers} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}  ${pybind11_INCLUDE_DIR})
+    target_include_directories( ${testnamenodot}${vers} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}  ${pybind11_INCLUDE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/eigen)
 
     if(BINDER_USE_PYTHON_IN_TEST)
       add_test( NAME ${testname}_python${vers}
@@ -142,6 +142,7 @@ set( binder_tests
          T43.stl.pybind11_include_stl
          T50.namespace_binder
          T60.custom_shared
+         T82.eigen
          )
 if (pybind11_VERSION VERSION_LESS 2.5.99)
  message(STATUS "pybind11 version ${pybind11_VERSION} is less than 2.5.99. Some tests will be disabled." )
