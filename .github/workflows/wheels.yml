@@ -62,7 +62,7 @@ jobs:
           fetch-depth: 0
           submodules: recursive
 
-      - name: Setup QEMU
+      - name: Setup QEMU for Linux cross-compilation
         if: runner.os == 'Linux'
         uses: docker/setup-qemu-action@v3
         with:
