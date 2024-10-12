@@ -78,4 +78,4 @@ archs = ["universal2"]
 
 [tool.setuptools_scm]
 root = ".."
-git_describe_command = "git describe --long --tags --match *[0-9]*"
+git_describe_command = ["git", "describe", "--long", "--tags", "--match", "*[0-9]*"]
