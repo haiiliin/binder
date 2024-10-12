@@ -69,6 +69,11 @@ jobs:
         with:
           platforms: all
 
+      - name: Install macOS dependencies
+        if: runner.os == 'macOS'
+        run: |
+          brew install coreutils xz
+
       - name: Setup LLVM project
         shell: bash
         run: |
