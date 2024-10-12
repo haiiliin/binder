@@ -44,7 +44,7 @@ cmake.targets = ["binder"]
 # Cmake defines
 cmake.define.LLVM_ENABLE_EH = "ON"
 cmake.define.LLVM_ENABLE_RTTI = "ON"
-cmake.define.LLVM_ENABLE_PROJECTS = "clang"
+cmake.define.LLVM_ENABLE_PROJECTS = "clang-tools-extra"
 
 # Wheel configuration
 wheel.packages = ["binder"]
