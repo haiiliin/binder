@@ -73,5 +73,4 @@ archs = ["universal2"]
 
 [tool.setuptools_scm]
 root = ".."
-version_scheme = "no-guess-dev"
-fallback_version = "0.0.1"
+git_describe_command = "git describe --long --tags --match *[0-9]*"
