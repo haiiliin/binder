@@ -60,6 +60,7 @@ version = "${version}"
 
 [tool.cibuildwheel]
 build = "cp313-*"
+environment.SETUPTOOLS_SCM_IGNORE_VCS_ROOTS = "python/llvm-project"
 test-requires = ["pytest"]
 test-command = "pytest {package}/tests"
 musllinux-x86_64-image = "musllinux_1_1"
