@@ -49,7 +49,7 @@ jobs:
             archs: "AMD64"
           - os: windows-2022
             archs: "x86"
-          - os: macos-14
+          - os: macos-13
             archs: "universal2"
         exclude:
           - os: ubuntu-22.04
