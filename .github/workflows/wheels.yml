@@ -50,6 +50,10 @@ jobs:
           - os: windows-2022
             archs: "x86"
           - os: macos-14
+        exclude:
+          - os: ubuntu-22.04
+            archs: "armv7l"
+            build: "cp313-manylinux_*"
       fail-fast: false
     steps:
       - name: Checkout repository
