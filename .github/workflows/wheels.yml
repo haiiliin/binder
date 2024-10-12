@@ -42,8 +42,8 @@ jobs:
           - "s390x"
           - "armv7l"
         build:
-          - "cp313-manylinux_*"
-          - "cp313-musllinux_*"
+          - "cp313-manylinux"
+          - "cp313-musllinux"
         include:
           - os: windows-2022
             archs: "AMD64"
@@ -54,7 +54,7 @@ jobs:
         exclude:
           - os: ubuntu-22.04
             archs: "armv7l"
-            build: "cp313-manylinux_*"
+            build: "cp313-manylinux"
       fail-fast: false
     steps:
       - name: Checkout repository
@@ -80,8 +80,15 @@ jobs:
           pipx install cibuildwheel
           pipx run cibuildwheel python
         env:
-          CIBW_BUILD: ${{ matrix.build == '' && 'cp313-*' || matrix.build }}
+          CIBW_BUILD: ${{ matrix.build == '' && 'cp313' || matrix.build }}*
           CIBW_ARCHS: ${{ matrix.archs == '' && 'auto' || matrix.archs }}
+
+      - name: Upload wheels to artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cppbinder-wheels-${{ matrix.os }}-${{ matrix.archs }}-${{ matrix.build }}-${{ github.event_name == 'release' && github.ref_name || github.sha }}
+          path: ./wheelhouse/*.whl
 
       - name: Upload wheels to release
         if: always() && github.event_name == 'release'
@@ -112,6 +119,12 @@ jobs:
           pipx install build
           pipx run build --sdist --outdir dist
         working-directory: python
+
+      - name: Upload source distribution to artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: cppbinder-sdist-${{ github.event_name == 'release' && github.ref_name || github.sha }}
+          path: ./python/dist/*.tar.gz
 
       - name: Upload source distribution to release
         run: |
