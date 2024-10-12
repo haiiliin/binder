@@ -28,7 +28,7 @@ Documentation = "https://cppbinder.readthedocs.io/"
 binder = "binder:binder"
 
 [tool.scikit-build]
-minimum-version = "0.8"
+minimum-version = "0.10"
 build-dir = "build/{wheel_tag}"
 
 # Print verbose output
