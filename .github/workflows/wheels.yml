@@ -41,9 +41,9 @@ jobs:
           - "ppc64le"
           - "s390x"
           - "armv7l"
-        build:
-          - "cp313-manylinux"
-          - "cp313-musllinux"
+        impl:
+          - "manylinux"
+          - "musllinux"
         include:
           - os: windows-2022
             archs: "AMD64"
@@ -54,7 +54,7 @@ jobs:
         exclude:
           - os: ubuntu-22.04
             archs: "armv7l"
-            build: "cp313-manylinux"
+            impl: "manylinux"
       fail-fast: false
     steps:
       - name: Checkout repository
@@ -80,14 +80,14 @@ jobs:
           pipx install cibuildwheel
           pipx run cibuildwheel python
         env:
-          CIBW_BUILD: ${{ matrix.build == '' && 'cp313' || matrix.build }}*
+          CIBW_BUILD: cp313-${{ matrix.impl }}*
           CIBW_ARCHS: ${{ matrix.archs == '' && 'auto' || matrix.archs }}
 
       - name: Upload wheels to artifacts
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: cppbinder-wheels-${{ matrix.os }}-${{ matrix.archs }}-${{ matrix.build }}-${{ github.event_name == 'release' && github.ref_name || github.sha }}
+          name: cppbinder-wheels-${{ matrix.os }}-${{ matrix.archs }}-${{ matrix.impl }}-${{ github.event_name == 'release' && github.ref_name || github.sha }}
           path: ./wheelhouse/*.whl
 
       - name: Upload wheels to release
