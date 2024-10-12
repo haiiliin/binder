@@ -37,6 +37,10 @@ jobs:
         archs:
           - "x86_64"
           - "i686"
+          - "aarch64"
+          - "ppc64le"
+          - "s390x"
+          - "armv7l"
         build:
           - "cp313-manylinux_*"
           - "cp313-musllinux_*"
