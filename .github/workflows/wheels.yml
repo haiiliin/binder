@@ -69,11 +69,6 @@ jobs:
         with:
           platforms: all
 
-      - name: Install MacOS dependencies
-        if: runner.os == 'macOS'
-        run: |
-          brew install coreutils xz
-
       - name: Setup cibuildwheel and build wheels
         run: |
           pipx install cibuildwheel
