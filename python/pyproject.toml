@@ -1,5 +1,5 @@
 [build-system]
-requires = ["scikit-build-core", "setuptools", "setuptools-scm", "pybind11"]
+requires = ["scikit-build-core>=0.10", "setuptools", "setuptools-scm", "pybind11"]
 build-backend = "scikit_build_core.build"
 
 [project]
@@ -39,7 +39,7 @@ sdist.include = ["binder/_version.py"]
 
 # Components to install and targets to build
 install.components = ["binder"]
-cmake.targets = ["binder"]
+build.targets = ["binder"]
 
 # Cmake defines
 cmake.define.LLVM_ENABLE_EH = "ON"
