@@ -50,6 +50,7 @@ jobs:
           - os: windows-2022
             archs: "x86"
           - os: macos-14
+            archs: "universal2"
         exclude:
           - os: ubuntu-22.04
             archs: "armv7l"
