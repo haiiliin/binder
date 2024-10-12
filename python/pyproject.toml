@@ -1,5 +1,5 @@
 [build-system]
-requires = ["scikit-build-core>=0.10", "setuptools", "setuptools-scm", "pybind11"]
+requires = ["scikit-build-core>=0.10.0", "setuptools", "setuptools-scm", "pybind11"]
 build-backend = "scikit_build_core.build"
 
 [project]
@@ -28,7 +28,7 @@ Documentation = "https://cppbinder.readthedocs.io/"
 binder = "binder:binder"
 
 [tool.scikit-build]
-minimum-version = "0.10"
+minimum-version = "build-system.requires"
 build-dir = "build/{wheel_tag}"
 
 # Print verbose output
