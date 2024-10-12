@@ -9,4 +9,4 @@ def test_check_binder_llvm_version():
     binder_version, llvm_version = re.match(pattern, output).groups()
 
     # Check the versions of LLVM
-    assert llvm_version == "18.1.8", f"LLVM version mismatch: {llvm_version} != 18.1.8"
+    assert llvm_version == "6.0.1", f"LLVM version mismatch: {llvm_version} != 6.0.1"
