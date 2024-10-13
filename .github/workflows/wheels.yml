@@ -37,6 +37,10 @@ jobs:
         archs:
           - "x86_64"
           - "i686"
+          - "aarch64"
+          - "ppc64le"
+          - "s390x"
+          - "armv7l"
         impl:
           - "manylinux"
           - "musllinux"
@@ -47,6 +51,10 @@ jobs:
             archs: "x86"
           - os: macos-13
             archs: "universal2"
+        exclude:
+          - os: ubuntu-22.04
+            archs: "armv7l"
+            impl: "manylinux"
       fail-fast: false
     steps:
       - name: Checkout repository
