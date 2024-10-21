@@ -63,7 +63,7 @@ jobs:
       - name: Clone LLVM project
         shell: bash
         run: |
-          cd python && git clone -b release/6.x https://github.com/llvm/llvm-project.git
+          git clone -b release/6.x https://github.com/llvm/llvm-project.git
         working-directory: python
 
       - name: Setup LLVM project
@@ -106,7 +106,7 @@ jobs:
       - name: Clone LLVM project
         shell: bash
         run: |
-          cd python && git clone -b release/6.x https://github.com/llvm/llvm-project.git
+          git clone -b release/6.x https://github.com/llvm/llvm-project.git
         working-directory: python
 
       - name: Setup LLVM project
