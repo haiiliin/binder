@@ -110,6 +110,7 @@ jobs:
       - name: Setup LLVM project
         shell: bash
         run: |
+          ls python/llvm-project/llvm/clang-tools-extra
           echo 'add_subdirectory(binder)' > python/llvm-project/llvm/clang-tools-extra/CMakeLists.txt
           cp -r source python/llvm-project/llvm/clang-tools-extra/binder
 
