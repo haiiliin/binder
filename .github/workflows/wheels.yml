@@ -54,20 +54,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Clone LLVM project
-        run: |
-          git clone -b release/6.x https://github.com/llvm/llvm-project.git
-        working-directory: python
-
       - name: Setup QEMU for Linux cross-compilation
         if: runner.os == 'Linux'
         uses: docker/setup-qemu-action@v3
         with:
           platforms: all
 
-      - name: Setup LLVM project
+      - name: Clone and setup LLVM project
         shell: bash
         run: |
+          cd python && git clone -b release/6.x https://github.com/llvm/llvm-project.git
           echo 'add_subdirectory(binder)' > python/llvm-project/clang-tools-extra/CMakeLists.txt
           cp -r source python/llvm-project/clang-tools-extra/binder
 
@@ -102,17 +98,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Clone LLVM project
-        run: |
-          git clone -b release/6.x https://github.com/llvm/llvm-project.git
-        working-directory: python
-
-      - name: Setup LLVM project
+      - name: Clone and setup LLVM project
         shell: bash
         run: |
-          ls python/llvm-project/llvm
-          echo 'add_subdirectory(binder)' > python/llvm-project/llvm/clang-tools-extra/CMakeLists.txt
-          cp -r source python/llvm-project/llvm/clang-tools-extra/binder
+          cd python && git clone -b release/6.x https://github.com/llvm/llvm-project.git
+          echo 'add_subdirectory(binder)' > python/llvm-project/clang-tools-extra/CMakeLists.txt
+          cp -r source python/llvm-project/clang-tools-extra/binder
 
       - name: Setup build and build source distribution
         run: |
