@@ -60,10 +60,15 @@ jobs:
         with:
           platforms: all
 
-      - name: Clone and setup LLVM project
+      - name: Clone LLVM project
         shell: bash
         run: |
           cd python && git clone -b release/6.x https://github.com/llvm/llvm-project.git
+        working-directory: python
+
+      - name: Setup LLVM project
+        shell: bash
+        run: |
           echo 'add_subdirectory(binder)' > python/llvm-project/clang-tools-extra/CMakeLists.txt
           cp -r source python/llvm-project/clang-tools-extra/binder
 
@@ -98,10 +103,15 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Clone and setup LLVM project
+      - name: Clone LLVM project
         shell: bash
         run: |
           cd python && git clone -b release/6.x https://github.com/llvm/llvm-project.git
+        working-directory: python
+
+      - name: Setup LLVM project
+        shell: bash
+        run: |
           echo 'add_subdirectory(binder)' > python/llvm-project/clang-tools-extra/CMakeLists.txt
           cp -r source python/llvm-project/clang-tools-extra/binder
 
