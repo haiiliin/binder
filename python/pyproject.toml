@@ -62,6 +62,11 @@ build = "cp313-*"
 build-verbosity = 1
 test-requires = ["pytest"]
 test-command = "pytest {package}/tests"
+musllinux-x86_64-image = "quay.io/pypa/musllinux_1_1_x86_64:2024.10.26-1"
+musllinux-i686-image = "quay.io/pypa/musllinux_1_1_x86_64:2024.10.26-1"
+musllinux-aarch64-image = "quay.io/pypa/musllinux_1_1_x86_64:2024.10.26-1"
+musllinux-ppc64le-image = "quay.io/pypa/musllinux_1_1_x86_64:2024.10.26-1"
+musllinux-s390x-image = "quay.io/pypa/musllinux_1_1_x86_64:2024.10.26-1"
 
 [tool.cibuildwheel.macos]
 archs = ["universal2"]
