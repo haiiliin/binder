@@ -43,7 +43,7 @@ jobs:
           - os: windows-latest
             archs: "x86"
             impl: win
-          - os: macos-15-intel
+          - os: macos-26-intel
             archs: "universal2"
             impl: macosx
       fail-fast: false
@@ -96,7 +96,7 @@ jobs:
       - name: Clone LLVM project
         shell: bash
         run: |
-          git clone -b release/6.x https://github.com/llvm/llvm-project.git
+          git clone -b release/18.x https://github.com/llvm/llvm-project.git
         working-directory: python
 
       - name: Setup LLVM project
