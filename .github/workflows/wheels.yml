@@ -72,7 +72,11 @@ jobs:
           cp -r source python/llvm-project/clang-tools-extra/binder
           if [[ "$(uname)" == "Darwin" ]]; then
             python3 << 'EOF'
+          import sys
           path = 'python/llvm-project/llvm/lib/Support/Regex.cpp'
+          if not __import__('os').path.exists(path):
+              print(f'WARNING: {path} not found, skipping patch', file=sys.stderr)
+              sys.exit(0)
           with open(path) as f:
               content = f.read()
           # On macOS 15+ SDK, xlocale/_regex.h is pulled in transitively via newer libc++ headers
@@ -81,6 +85,9 @@ jobs:
           patch = '#ifdef __APPLE__\nextern "C" {\n#include "regex_impl.h"\n}\n#endif\n'
           target = '#include "llvm/ADT/StringRef.h"'
           if patch not in content:
+              if target not in content:
+                  print(f'WARNING: target string not found in {path}, skipping patch', file=sys.stderr)
+                  sys.exit(0)
               content = content.replace(target, patch + target, 1)
               with open(path, 'w') as f:
                   f.write(content)
