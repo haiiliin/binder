@@ -70,6 +70,22 @@ jobs:
         run: |
           echo 'add_subdirectory(binder)' > python/llvm-project/clang-tools-extra/CMakeLists.txt
           cp -r source python/llvm-project/clang-tools-extra/binder
+          if [[ "$(uname)" == "Darwin" ]]; then
+            python3 << 'EOF'
+          path = 'python/llvm-project/llvm/lib/Support/Regex.cpp'
+          with open(path) as f:
+              content = f.read()
+          # On macOS 15+ SDK, xlocale/_regex.h is pulled in transitively via newer libc++ headers
+          # before LLVM's regex_impl.h defines regex_t, causing a compilation error.
+          # Fix: include regex_impl.h before the LLVM ADT includes so regex_t is defined first.
+          patch = '#ifdef __APPLE__\nextern "C" {\n#include "regex_impl.h"\n}\n#endif\n'
+          target = '#include "llvm/ADT/StringRef.h"'
+          if patch not in content:
+              content = content.replace(target, patch + target, 1)
+              with open(path, 'w') as f:
+                  f.write(content)
+          EOF
+          fi
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.23.3
