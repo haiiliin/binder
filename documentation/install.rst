@@ -1,7 +1,7 @@
-Installation with pre-built wheels
-==================================
+Install from PyPI
+=================
 
-The easiest way to install Binder is to use pre-built wheels from PyPI. To install Binder, run:
+The easiest way to install Binder is to use pip to install pre-built wheels from PyPI:
 
 .. code-block:: bash
 
@@ -11,8 +11,8 @@ This will install the latest version of Binder and its dependencies.
 
 To build Binder from source, follow the instructions below.
 
-Installation from source
-========================
+Build and install from source
+=============================
 **Binder** is written in C++11 and must be built before use. This page describes the steps for the build process.
 Please note that installation require up to ~2.6+ Gb of free disk space.
 
@@ -70,7 +70,7 @@ To *statically* compile binder, see :ref:`building-static`.
 
   # Build Binder
   mkdir $HOME/prefix/build && cd $HOME/prefix/build
-  cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_EH=1 -DLLVM_ENABLE_RTTI=ON ../llvm && ninja
+  cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_EH=1 -DLLVM_ENABLE_RTTI=ON ../llvm/llvm && ninja
 
   # At this point, if all above steps is successful, binder should be at
   # $HOME/prefix/build/bin/binder

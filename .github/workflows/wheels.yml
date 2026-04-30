@@ -1,22 +1,23 @@
 name: Wheels
 
 on:
+  push:
+    branches:
+      - master
+    paths:
+      - ".github/workflows/wheels.yml"
+      - "python/**"
+      - "source/**"
   pull_request:
     branches:
       - master
     paths:
       - ".github/workflows/wheels.yml"
+      - "python/**"
       - "source/**"
   release:
     types: [published]
-
-concurrency:
-  group: wheels-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
-permissions:
-  contents: write
-  pull-requests: write
+  workflow_dispatch:
 
 jobs:
   build-wheels:
@@ -24,47 +25,81 @@ jobs:
     strategy:
       matrix:
         os:
-          - windows-2022
-          - ubuntu-22.04
-          - macos-14
+          - ubuntu-latest
+        archs:
+          - "x86_64"
+          - "i686"
+        impl:
+          - "manylinux"
+          - "musllinux"
+        include:
+          - os: windows-latest
+            archs: "AMD64"
+            impl: win
+          - os: windows-latest
+            archs: "x86"
+            impl: win
+          - os: macos-26-intel
+            archs: "universal2"
+            impl: macosx
       fail-fast: false
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
-          submodules: recursive
 
-      - name: Setup cibuildwheel and build wheels
-        run: |
-          pipx install cibuildwheel
-          pipx run cibuildwheel python
-        env:
-          CIBW_BUILD: ${{ github.event_name == 'release' && 'cp312-*' || 'cp312-macosx_universal2 cp312-win_amd64 cp312-manylinux_x86_64' }}
-
-      - name: Upload wheels to artifacts
-        uses: actions/upload-artifact@v4
-        if: always()
+      - name: Setup QEMU for Linux cross-compilation
+        if: runner.os == 'Linux'
+        uses: docker/setup-qemu-action@v3
         with:
-          name: cppbinder-wheels-${{ matrix.os }}-${{ github.event_name == 'release' && github.ref_name || github.sha }}
-          path: ./wheelhouse/*.whl
+          platforms: all
 
-      - name: Upload wheels to release
-        if: github.event_name == 'release'
+      - name: Clone LLVM project
         shell: bash
         run: |
-          gh release upload ${{ github.ref_name }} ./wheelhouse/*.whl --clobber
+          git clone -b release/7.x https://github.com/llvm/llvm-project.git
+        working-directory: python
+
+      - name: Setup LLVM project
+        shell: bash
+        run: |
+          echo 'add_subdirectory(binder)' > python/llvm-project/clang-tools-extra/CMakeLists.txt
+          cp -r source python/llvm-project/clang-tools-extra/binder
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.23.3
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CIBW_BUILD: cp313-${{ matrix.impl }}*
+          CIBW_ARCHS: ${{ matrix.archs }}
+        with:
+          package-dir: python
+
+      - name: Upload wheels to artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: cppbinder-wheels-${{ matrix.os }}-${{ matrix.archs }}-${{ matrix.impl }}-${{ github.event_name == 'release' && github.ref_name || github.sha }}
+          path: ./wheelhouse/*.whl
 
   build-sdist:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
-          submodules: recursive
+
+      - name: Clone LLVM project
+        shell: bash
+        run: |
+          git clone -b release/7.x https://github.com/llvm/llvm-project.git
+        working-directory: python
+
+      - name: Setup LLVM project
+        shell: bash
+        run: |
+          echo 'add_subdirectory(binder)' > python/llvm-project/clang-tools-extra/CMakeLists.txt
+          cp -r source python/llvm-project/clang-tools-extra/binder
 
       - name: Setup build and build source distribution
         run: |
@@ -73,18 +108,10 @@ jobs:
         working-directory: python
 
       - name: Upload source distribution to artifacts
-        uses: actions/upload-artifact@v4
-        if: always()
+        uses: actions/upload-artifact@v7
         with:
           name: cppbinder-sdist-${{ github.event_name == 'release' && github.ref_name || github.sha }}
           path: ./python/dist/*.tar.gz
-
-      - name: Upload source distribution to release
-        if: github.event_name == 'release'
-        run: |
-          gh release upload ${{ github.ref_name }} ./python/dist/*.tar.gz --clobber
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   publish:
     needs: [build-wheels, build-sdist]
@@ -92,13 +119,14 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Download wheels and source distribution
-        run: |
-          gh release download ${{ github.ref_name }} --pattern *.whl --pattern *.tar.gz --dir dist
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: actions/download-artifact@v8
+        with:
+          pattern: cppbinder-*
+          path: dist
+          merge-multiple: true
 
       - name: Publish package to PyPI
         uses: pypa/gh-action-pypi-publish@v1.8.14

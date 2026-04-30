@@ -35,7 +35,8 @@ files. Typically the following files will be generated: ``<root-module>.cpp``, `
 
 ``--skip-line-number`` if specified prevents Binder from writing the line numbers in the comments to the generated code.
 
-``--bind-class-template-specialization`` specify if class-template-specialization should be bound by-default
+``--bind-class-template-specialization`` specify if class-template-specialization should be bound by-default. 
+Default: ``true``. Behavior: if ``true``: try to generate bindings for discovered template specializations (may fail if LLVM hasn’t instantiated them). If ``false``: bind only explicitly instantiated classes; no automatic specialization binding.
 
 ``--suppress-errors`` if the generated bindings codes are correct but there are some fatal errors from clang and you want to get rid of them. This situation can happen when you would like to generate binding codes for a small part of a huge project and the you cannot include all the required header files with ``-I`` to the command.
 
@@ -44,6 +45,7 @@ files. Typically the following files will be generated: ``<root-module>.cpp``, `
 
 
 ``--annotate-includes`` [debug] if specified Binder will comment each include with type name which trigger it inclusion.
+``--annotate-functions`` [debug] if specified Binder will generate an extra comment for each function/constructor bound containing its C++ type signature.
 
 
 ``--trace`` [debug] if specified instruct Binder to add extra debug output before binding each type. This might be useful when debugging generated code that produce seg-faults during python import.
@@ -253,4 +255,3 @@ Config file directives:
 .. code-block:: bash
 
   +pybind11_include_file pybind11/smart_holder.h
-
