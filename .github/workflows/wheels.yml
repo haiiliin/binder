@@ -25,7 +25,7 @@ jobs:
     strategy:
       matrix:
         os:
-          - ubuntu-latest
+          - ubuntu-24.04
         archs:
           - "x86_64"
           - "i686"
@@ -33,10 +33,10 @@ jobs:
           - "manylinux"
           - "musllinux"
         include:
-          - os: windows-latest
+          - os: windows-2022
             archs: "AMD64"
             impl: win
-          - os: windows-latest
+          - os: windows-2022
             archs: "x86"
             impl: win
           - os: macos-26-intel
@@ -68,10 +68,11 @@ jobs:
           cp -r source python/llvm-project/clang-tools-extra/binder
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.23.3
+        uses: pypa/cibuildwheel@v4.0.0
         env:
           CIBW_ARCHS: ${{ matrix.archs }}
           CIBW_BUILD: cp313-${{ matrix.impl }}*
+          CIBW_BUILD_FRONTEND: "pip"
         with:
           package-dir: python
 
