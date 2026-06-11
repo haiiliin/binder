@@ -33,7 +33,7 @@ jobs:
           - "manylinux"
           - "musllinux"
         include:
-          - os: windows-latest
+          - os: windows-2022
             archs: "AMD64"
             impl: win
           - os: windows-latest
@@ -54,10 +54,6 @@ jobs:
         uses: docker/setup-qemu-action@v3
         with:
           platforms: all
-
-      - name: Setup MSVC developer command
-        if: runner.os == 'Windows'
-        uses: ilammy/msvc-dev-cmd@v1
 
       - name: Clone LLVM project
         shell: bash
