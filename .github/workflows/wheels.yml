@@ -55,6 +55,10 @@ jobs:
         with:
           platforms: all
 
+      - name: Setup MSVC developer command
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@v1
+
       - name: Clone LLVM project
         shell: bash
         run: |
