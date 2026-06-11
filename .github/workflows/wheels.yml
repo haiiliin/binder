@@ -67,6 +67,11 @@ jobs:
           echo 'add_subdirectory(binder)' > python/llvm-project/clang-tools-extra/CMakeLists.txt
           cp -r source python/llvm-project/clang-tools-extra/binder
 
+      - name: List files
+        run: |
+          ls
+          ls include
+
       - name: Build wheels
         uses: pypa/cibuildwheel@v4.0.0
         env:
